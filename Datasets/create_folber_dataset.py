@@ -1,4 +1,4 @@
-from Config import image_dir, image_val_dir,ann_file, ann_file_val
+from Datasets.Config import image_dir, image_val_dir,ann_file, ann_file_val
 from pycocotools.coco import COCO
 import json
 import os
@@ -152,11 +152,11 @@ if __name__ == "__main__":
 
   train_data.create_dataset_folber()
 
-  '''
+  
   val_data =  getDataFoalberCoco(
                image_val_dir  ,
                ann_file_val,
                [1],
                '/content/data_set/val_dataset')
 
-  val_data.create_dataset_folber()
+  val_data.create_dataset_folber()'''
