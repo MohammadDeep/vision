@@ -1,0 +1,26 @@
+# فایل‌های موقت پایتون
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# فایل‌های محیط مجازی
+env/
+venv/
+.venv/
+
+# فایل‌های مربوط به Jupyter Notebook
+.ipynb_checkpoints/
+
+# فایل‌های لاگ یا کش
+*.log
+*.cache/
+*.egg-info/
+
+# فایل تست یا آزمایشی
+test.py
+
+# تنظیمات IDEها (اختیاری)
+.vscode/
+.idea/
+*.swp
