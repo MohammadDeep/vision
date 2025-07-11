@@ -1,0 +1,186 @@
+import torch
+import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
+import os
+import numpy as np
+from torchvision import models
+import random
+from tqdm import tqdm
+import time
+
+def imshow_function(img_list, color_list, row=None, colum=3, title_list=None):
+    """
+    نمایش چند تصویر در یک شکل (figure) با استفاده از تنسورهای PyTorch.
+    پارامترها:
+      - img_list    : لیستی از تنسورهای تصاویر (هر تنسور شکل [C, H, W]).
+      - color_list  : لیستی از رنگ‌ها برای عناوین (آبی برای درست، قرمز برای اشتباه، و غیره).
+      - title_list  : لیستی از عناوین (متن) برای هر تصویر.
+      - row         : تعداد ردیف‌های شبکه‌ی زیرمحورها. اگر None باشد، براساس تعداد تصاویر و ستون‌ها محاسبه می‌شود.
+      - colum       : تعداد ستون‌های شبکه‌ی زیرمحورها در یک ردیف (پیش‌فرض 3).
+    """
+    num_imgs = len(img_list)
+    if title_list is None:
+        title_list = ["" for _ in range(num_imgs)]
+    if color_list is None:
+        color_list = ["black" for _ in range(num_imgs)]
+
+    # اگر تعداد ردیف به صورت دستی مشخص نشده باشد،
+    # تعداد ردیف = ceil(تعداد تصاویر / تعداد ستون)
+    if row is None:
+        row = (num_imgs + colum - 1) // colum
+
+    fig, axes = plt.subplots(row, colum, figsize=(4*colum, 4*row))
+    axes = axes.flatten()
+    print(f'create plot...')
+    for i in tqdm(range(row * colum)):
+        ax = axes[i]
+        if i < num_imgs:
+            img_tensor = img_list[i]
+            title = title_list[i]
+            color = color_list[i]
+
+            # تبدیل تنسور به numpy و تغییر ترتیب محورها از [C, H, W] به [H, W, C]
+            img = img_tensor.cpu().numpy().transpose((1, 2, 0))
+
+            # بازگرداندن نرمالیزه به حالت اولیه (در صورت استفاده از استاندارد ImageNet)
+            mean = np.array([0.485, 0.456, 0.406])
+            std  = np.array([0.229, 0.224, 0.225])
+            img  = std * img + mean
+            img  = np.clip(img, 0, 1)
+
+            ax.imshow(img)
+            ax.set_title(title, color=color)
+            ax.axis('off')
+        else:
+            # اگر تصویری وجود ندارد (تعداد تصاویر کمتر از row*colum)، ساب‌پلات را خاموش می‌کنیم
+            ax.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_random_samples(model,
+                        test_dataset,
+                        num_samples=5,
+                        figsize=(4, 4)
+                        , show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
+                          ):
+    """
+    انتخاب نمونه‌های تصادفی از دیتاست تست، پیش‌بینی با مدل، و نمایش آنها.
+    اگر پیش‌بینی درست باشد، عنوان با رنگ آبی و در غیر این صورت با رنگ قرمز نمایش داده می‌شود.
+    """
+    # دستگاه (CPU یا GPU)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    model.eval()
+
+    # برعکس کردن دیکشنری class_to_idx برای نمایش نام کلاس‌ها
+    idx_to_class = {v: k for k, v in test_dataset.class_to_idx.items()}
+    print(f'idx_to_class: {idx_to_class}')
+
+    total_images = len(test_dataset)
+    if num_samples > total_images:
+        print(f"تعداد درخواست‌شده ({num_samples}) بیشتر از تعداد کل تصاویر ({total_images}) است. تنظیم به {total_images}.")
+        num_samples = total_images
+
+    # انتخاب تصادفی اندیس‌ها
+    random_indices = random.sample(range(total_images), num_samples)
+
+    list_images = []
+    list_titles = []
+    list_colors = []
+    index_TT =[]
+    index_TF = []
+    index_FF = []
+    index_FT = []
+
+    print('model in image...')
+    ii = 0
+    for idx in tqdm(random_indices):
+        # بارگذاری تصویر و برچسب واقعی
+        img_path, _ = test_dataset.imgs[idx]
+        img_tensor, true_idx = test_dataset[idx]
+        img_input = img_tensor.unsqueeze(0).to(device)  # اضافه کردن بعد batch
+        true_idx = torch.tensor([true_idx]).to(device)
+
+        # پیش‌بینی مدل
+        with torch.no_grad():
+            outputs = model(img_input)
+            # اگر بیش از دو کلاس داریم از argmax استفاده می‌کنیم
+            if len(idx_to_class) > 2:
+                _, pred_idx = torch.max(outputs, 1)
+                pred_idx = pred_idx.item()
+            else:
+                # فرض بر این است که خروجی سینگولار است (مثلاً sigmoid)
+                prob =  outputs[0][0]
+                if prob > 0.5:
+                    pred_idx = 1
+                else:
+                    pred_idx = 0
+
+        true_label = idx_to_class[int(true_idx.item())]
+        pred_label = idx_to_class[int(pred_idx)]
+        title_str = f"True: {true_label} | Pred: {pred_label} | output : {prob:1.2}"
+
+        # تعیین رنگ عنوان
+        if true_label == pred_label:
+            color = 'blue'
+            if true_label == idx_to_class[0]:
+              index_FT.append(ii)
+            else:
+              index_TT.append(ii)
+
+        else:
+            color = 'red'
+            if true_label == idx_to_class[0]:
+              index_FF.append(ii)
+            else:
+              index_TF.append(ii)
+        ii = ii + 1
+        list_images.append(img_tensor)
+        list_titles.append(title_str)
+        list_colors.append(color)
+
+    print(f'accuracy : {(len(index_TT) + len(index_FT))/ (len(list_colors))}')
+    print(f'len(list_colors_True) : {len(index_TT) + len(index_FT)}')
+    print(f'len(list_colors_False) : {len(index_TF) + len(index_FF)}')
+
+    if show_images == 'TT' or show_images == 'all T' or show_images == 'all' :
+      print('Plot TT')
+      imshow_function(
+          img_list=[list_images[i] for i in index_TT],
+          title_list=[list_titles[i] for i in index_TT],
+          color_list=[list_colors[i] for i in index_TT],
+          colum=3
+      )
+    if show_images == 'TF' or show_images == 'all F'or show_images == 'all' :
+      print('Plot TF')
+      imshow_function(
+          img_list=[list_images[i] for i in index_TF],
+          title_list=[list_titles[i] for i in index_TF],
+          color_list=[list_colors[i] for i in index_TF],
+          colum=3
+      )
+    if show_images == 'FT' or show_images == 'all T'or show_images == 'all' :
+      print('Plot FT')
+      imshow_function(
+          img_list=[list_images[i] for i in index_FT],
+          title_list=[list_titles[i] for i in index_FT],
+          color_list=[list_colors[i] for i in index_FT],
+          colum=3
+      )
+    if show_images == 'FF'  or show_images == 'all F'or show_images == 'all':
+      print('Plot FF')
+      imshow_function(
+          img_list=[list_images[i] for i in index_FF],
+          title_list=[list_titles[i] for i in index_FF],
+          color_list=[list_colors[i] for i in index_FF],
+          colum=3
+      )
+
+
+
+
+
