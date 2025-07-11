@@ -98,12 +98,12 @@ class getDataFoalberCoco:
 
       image_info = data['image']
       image_path = os.path.join(self.image_dir, image_info['file_name'])
-
-      if os.path.exists(image_path):
-          destination_path = os.path.join(destination_dir1, image_info['file_name'])
+      destination_path = os.path.join(destination_dir1, image_info['file_name'])
+      # Checks if data exists and has not been copied
+      if (not os.path.exists(destination_path)) and os.path.exists(image_path):
           shutil.copy2(image_path, destination_path) # copy2 preserves metadata
           #print(f"Copied {image_info['file_name']} to {destination_path}")
-      else:
+      elif not os.path.exists(image_path):
           print(f"Warning: Image file not found: {image_path}")
 
 
