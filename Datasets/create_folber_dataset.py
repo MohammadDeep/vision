@@ -1,4 +1,4 @@
-from Datasets.Config import image_dir, image_val_dir,ann_file, ann_file_val
+from Config import image_dir, image_val_dir,ann_file, ann_file_val
 from pycocotools.coco import COCO
 import json
 import os
