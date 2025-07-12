@@ -46,7 +46,7 @@ if Create_val_data:
 
         val_data.create_dataset_folber()
 
-        '''
+        
         imm_val =  CutImage(image_dir = image_val_dir,
                 bake_dir = Path(dir_dataset_folder_val, '-1'),
                 ann_file = ann_file_val,
@@ -64,4 +64,4 @@ if Create_val_data:
 
         # Create persion and bakgrund random
         imm_val.create_cut_images( 10000 )
-        '''
+        
