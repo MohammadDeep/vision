@@ -24,19 +24,3 @@ test.py
 .vscode/
 .idea/
 *.swp
-
-
-# فایل های دیتاست
-__dataset__*/
-
-# نادیده گرفتن تمام فرمت‌های تصویری
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.tiff
-*.webp
-*.svg
-*.ico
-
