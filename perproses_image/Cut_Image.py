@@ -46,6 +46,7 @@ class CutImage:
             list(self.bake_dir.glob("*.png")) +
             list(self.bake_dir.glob("*.jpeg"))
         )
+        print(f'len image for bakcgund {len(self._bake_paths)}')
 
         # Initialize COCO API
         self._coco = COCO(str(self.ann_file))
