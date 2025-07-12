@@ -24,3 +24,7 @@ test.py
 .vscode/
 .idea/
 *.swp
+
+
+# datasetr forlder
+__*/
