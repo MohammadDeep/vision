@@ -245,7 +245,8 @@ class CutImage:
 
             if save:
                 name = f"cut_indx_{idx}_imageName_{img_info['file_name']}"
-                self._save(final, name, 'cut_image')
+                from Config import folber_name_cut_image
+                self._save(final, name, folber_name_cut_image)
 
 
     def create_cut_box_images(
@@ -319,7 +320,8 @@ class CutImage:
             if save and ann.get('area', 0) > min_area and ann.get('area', 0) < max_area :
 
                 name = f"cut_area_{ann.get('area', 0)}_idx_{idx}_imageName_{img_info['file_name']}"
-                self._save(cropped, name , 'box_image')
+                from Config import folber_name_box_image
+                self._save(cropped, name , folber_name_box_image)
 
     def create_cut_box_bake(
         self,
@@ -366,7 +368,9 @@ class CutImage:
             plt.show()
         if save:
             name = f"bake_idx_{idx}_imageName_{img_name}"
-            self._save(final, name, 'bake_image_Not')
+
+            from Config import folber_name_bake_image_Not
+            self._save(final, name, folber_name_bake_image_Not)
 
     def cleanup(self):
         """
