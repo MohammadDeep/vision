@@ -74,3 +74,8 @@ dir_extended_dataset = Path(dir_dataset_folder , 'extended_dataset')
 # urn code for Create data
 Create_train_data = False
 Create_val_data = True
+
+
+
+# dir history and models save in
+dir_history_model = Path('./__history_and_modeles/')
