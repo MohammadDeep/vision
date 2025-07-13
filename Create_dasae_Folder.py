@@ -1,5 +1,5 @@
 
-from Config import Create_train_data,Create_val_data,dir_dataset_folder_val,image_dir, image_val_dir,ann_file, ann_file_val, list_calsses, dir_dataset_folder
+from Config import dir_image_gent_val,dir_image_gent,dir_dataset_orgnal, dir_dataset_orgnal_val,Create_train_data,Create_val_data,dir_dataset_folder_val,image_dir, image_val_dir,ann_file, ann_file_val, list_calsses, dir_dataset_folder
 from perproses_image.Cut_Image import CutImage
 from Create_dase_Fimage.create_folber_dataset import getDataFoalberCoco
 from pathlib import Path
@@ -11,17 +11,17 @@ if Create_train_data:
                 image_dir  ,
                 ann_file,
                 list_calsses,
-                dir_dataset_folder)
+                dir_dataset_orgnal)
 
         train_data.create_dataset_folber()
 
         #Producing new iamges
 
         imm_train =  CutImage(image_dir = image_dir,
-                bake_dir = Path(dir_dataset_folder , '-1'),
+                bake_dir = Path(dir_dataset_orgnal , '-1'),
                 ann_file = ann_file,
                 category_id = list_calsses[0],
-                destination_dir = Path(dir_dataset_folder , 'CutImage'),
+                destination_dir = dir_image_gent,
                 cache_size= 10000000,
                 memory_threshold = 95.0
                 )
@@ -42,16 +42,16 @@ if Create_val_data:
                 image_val_dir  ,
                 ann_file_val,
                 list_calsses,
-                dir_dataset_folder_val)
+                dir_dataset_orgnal_val)
 
         val_data.create_dataset_folber()
 
         
         imm_val =  CutImage(image_dir = image_val_dir,
-                bake_dir = Path(dir_dataset_folder_val, '-1'),
+                bake_dir = Path(dir_dataset_orgnal_val, '-1'),
                 ann_file = ann_file_val,
                 category_id = list_calsses[0],
-                destination_dir = Path(dir_dataset_folder_val, 'CutImage'),
+                destination_dir = dir_image_gent_val,
                 cache_size= 10000000,
                 memory_threshold = 95.0
                 )
