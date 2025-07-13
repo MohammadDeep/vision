@@ -9,6 +9,9 @@ from torchvision import models
 import random
 from tqdm import tqdm
 import time
+import os
+import shutil
+from typing import Literal
 
 def imshow_function(img_list, color_list, row=None, colum=3, title_list=None):
     """
@@ -180,6 +183,89 @@ def plot_random_samples(model,
           colum=3
       )
 
+
+# show tree file 
+# prompt: نمودار درختی عکس های درون پوشه های تعداد عکس ها
+# /content/train_dataset
+# نوع عکس ها را هم مشخس کن
+import os
+def tree_directory_images(directory_path):
+  """
+  Creates a tree structure of image files within subdirectories,
+  counting images and specifying their types.
+
+  Args:
+    directory_path: The path to the main directory.
+  Example:
+    tree_directory_iamges(directory_path  =  '/dataset')
+  """
+  print(f"{directory_path}")
+  for root, dirs, files in os.walk(directory_path):
+    # Get the level of the current directory relative to the starting directory
+    level = root.replace(directory_path, '').count(os.sep)
+    # Indent the output based on the directory level
+    indent = '  ' * level
+    # Get the base name of the current directory
+    subdir = os.path.basename(root)
+    if subdir: # Avoid printing the base directory name twice
+        print(f'{indent}├── {subdir}/')
+
+    # Count and list image files in the current directory
+    image_files = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+    if image_files:
+        print(f'{indent}  ├── ({len(image_files)} images)')
+        # Optional: Print the types of images
+        image_types = set(os.path.splitext(f)[1].lower() for f in image_files)
+        print(f'{indent}  │   ├── Types: {", ".join(image_types)}')
+
+# Specify the path to the directory
+directory_to_analyze = '/content/train_dataset'
+
+
+# prompt: یک تابع که عکس ها موجود در یک پوشه را به پوشه دیگر انتقال دهد
+
+def move_or_copy_images_to_folder(source_folder, destination_folder,
+                          pasvand = None,
+                          extensions=['.jpg', '.jpeg', '.png', '.gif'] ,
+                          move_or_copy :Literal['move', 'copy'] = 'move'):
+  """
+  این تابع فایل‌های تصویری را از یک پوشه به پوشه دیگر انتقال می‌دهد.
+
+  Args:
+    source_folder: مسیر پوشه مبدأ.
+    destination_folder: مسیر پوشه مقصد.
+    extensions: لیستی از پسوندهای فایل تصویری برای انتقال.
+    move_or_copy : ورودی های باید 'move'or 'copy'باشد
+
+    # مثال استفاده:
+    # source_folder = '/content/my_images'  # مسیر پوشه مبدأ خود را اینجا وارد کنید
+    # destination_folder = '/content/moved_images' # مسیر پوشه مقصد خود را اینجا وارد کنید
+    # move_images_to_folder(source_folder, destination_folder)
+
+      
+    """
+  if move_or_copy not in ['move', 'copy']:
+    move_or_copy = input('enter move_or_copy file (move , copy):')
+  # اطمینان حاصل کنید که پوشه مقصد وجود دارد، در غیر این صورت آن را ایجاد کنید.
+  if not os.path.exists(destination_folder):
+    os.makedirs(destination_folder)
+
+  # پیمایش در فایل‌های پوشه مبدأ
+  for filename in os.listdir(source_folder):
+    source_path = os.path.join(source_folder, filename)
+    new_filename = f'{pasvand}_{filename}'
+    destination_path = os.path.join(destination_folder, new_filename )
+
+    # بررسی کنید که آیا فایل یک فایل است و پسوند آن در لیست پسوندهای تصویر است
+    if os.path.isfile(source_path) and any(filename.lower().endswith(ext) for ext in extensions):
+      try:
+        if move_or_copy == 'move':
+            shutil.move(source_path, destination_path)
+        elif move_or_copy == 'copy':
+            shutil.copy(source_path, destination_path)
+        #print(f"انتقال فایل: {filename}")
+      except Exception as e:
+        print(f"Error for move file : {filename} : {e}")
 
 
 
