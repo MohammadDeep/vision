@@ -1,7 +1,7 @@
 
 from Config import Create_train_data,Create_val_data,dir_dataset_folder_val,image_dir, image_val_dir,ann_file, ann_file_val, list_calsses, dir_dataset_folder
 from perproses_image.Cut_Image import CutImage
-from Datasets.create_folber_dataset import getDataFoalberCoco
+from Create_dase_Fimage.create_folber_dataset import getDataFoalberCoco
 from pathlib import Path
 
 # Create forlder dataset 
