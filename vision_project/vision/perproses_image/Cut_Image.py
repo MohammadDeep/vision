@@ -7,7 +7,7 @@ import numpy as np
 from pycocotools.coco import COCO
 from tqdm import tqdm
 import random
-
+import matplotlib as plt
 
 
 
@@ -245,7 +245,7 @@ class CutImage:
 
             if save:
                 name = f"cut_indx_{idx}_imageName_{img_info['file_name']}"
-                from Config import folber_name_cut_image
+                from vision.Config import folber_name_cut_image
                 self._save(final, name, folber_name_cut_image)
 
 
@@ -320,7 +320,7 @@ class CutImage:
             if save and ann.get('area', 0) > min_area and ann.get('area', 0) < max_area :
 
                 name = f"cut_area_{ann.get('area', 0)}_idx_{idx}_imageName_{img_info['file_name']}"
-                from Config import folber_name_box_image
+                from vision.Config import folber_name_box_image
                 self._save(cropped, name , folber_name_box_image)
 
     def create_cut_box_bake(
@@ -369,7 +369,7 @@ class CutImage:
         if save:
             name = f"bake_idx_{idx}_imageName_{img_name}"
 
-            from Config import folber_name_bake_image_Not
+            from vision.Config import folber_name_bake_image_Not
             self._save(final, name, folber_name_bake_image_Not)
 
     def cleanup(self):

@@ -165,7 +165,7 @@ def plot_comparison_across_models(output_dir: Path):
         plt.close()
 
 if __name__ == "__main__":
-    from Config import dir_history_model  # مسیر پوشه ورودی
+    from vision.Config import dir_history_model  # مسیر پوشه ورودی
     input_dir = Path(dir_history_model)
     output_dir = input_dir / "processed"
 
