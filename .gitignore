@@ -18,7 +18,7 @@ venv/
 *.egg-info/
 
 # فایل تست یا آزمایشی
-test.py
+test*
 
 # تنظیمات IDEها (اختیاری)
 .vscode/
