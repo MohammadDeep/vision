@@ -1,10 +1,10 @@
 from pathlib import Path
 # dirctory dataset 
-base_dir = Path('./__dataset__coco')
-image_dir = Path(base_dir, 'train2017')  
-ann_file = Path(base_dir, 'annotations/instances_train2017.json')  
-image_val_dir = Path(base_dir, 'val2017/')
-ann_file_val = Path(base_dir,'annotations/instances_val2017.json')
+base_dir = Path('./__dataset__coco') # dase directory
+image_dir = Path(base_dir, 'train2017')  # train orginal image direcory
+ann_file = Path(base_dir, 'annotations/instances_train2017.json')  # label train data dir
+image_val_dir = Path(base_dir, 'val2017/') # val orginal image direcory
+ann_file_val = Path(base_dir,'annotations/instances_val2017.json') # label val data dir
 
 # list of data classes for 
 list_calsses = [1]
