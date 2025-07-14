@@ -1,0 +1,1 @@
+When running these codes you must be in the appropriate directory, by default you should be in './vision' which is the main folder. (This means in the terminal, use the "cd" command to go to the appropriate directory.)
