@@ -1,7 +1,8 @@
 # vision
 ## install package vision
-Go to directory -> vision_project
-run -> pip install -e.
+- Go to directory -> "vision/vision_project"
+
+- run -> pip install -e.
 
 
 
@@ -24,12 +25,3 @@ run -> pip install -e.
 
 
 ## Folder structure
-- models
-  - Python files, each of which trains different models and stores the results and models.
-    - Part 1: Specifying the Datasets ->"dic_name_folber_clases_val" and "dic_name_folber_clases"
-    - Part 2: Creating 'transforms' and creating 'DataLoaders'
-    - Part 3: Specifying the Model Structure
-    - Part 4:
-      - Specifying optimization and cost functions.
-      - training the model, and testing it.
-      - save model and history.
