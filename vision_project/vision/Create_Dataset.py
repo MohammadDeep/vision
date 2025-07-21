@@ -8,7 +8,7 @@ def Create_dataset (dic_name = dic_name_folber_clases ,
                     ):
     for class_name in dic_name:
         for folber_name in dic_name[class_name]:
-            print(f'move/copy : {dic_dir[folber_name]} -> {Path(dir_extended, class_name)}')
+            print(f'{move_or_copy_files} : {dic_dir[folber_name]} -> {Path(dir_extended, class_name)}')
             move_or_copy_images_to_folder(
                 source_folder = dic_dir[folber_name],
                 destination_folder = Path(dir_extended, class_name),
