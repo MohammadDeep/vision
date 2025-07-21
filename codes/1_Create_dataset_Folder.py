@@ -23,7 +23,7 @@ if Create_train_data:
                 category_id = list_calsses[0],
                 destination_dir = dir_image_gent,
                 cache_size= 10000000,
-                memory_threshold = 95.0
+                memory_threshold = 80.0
                 )
         
         # Cut box of images
@@ -53,7 +53,7 @@ if Create_val_data:
                 category_id = list_calsses[0],
                 destination_dir = dir_image_gent_val,
                 cache_size= 10000000,
-                memory_threshold = 95.0
+                memory_threshold = 80.0
                 )
                 
         # Cut box of images
