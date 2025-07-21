@@ -72,7 +72,7 @@ dic_name_folber_clases_val = {
 dir_extended_dataset_val = Path(dir_dataset_folder_val , 'extended_dataset')
 dir_extended_dataset = Path(dir_dataset_folder , 'extended_dataset')
 # urn code for Create data
-Create_train_data = False
+Create_train_data = True
 Create_val_data = True
 
 
