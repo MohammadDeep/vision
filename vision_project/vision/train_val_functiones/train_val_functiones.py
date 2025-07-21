@@ -177,12 +177,14 @@ def train(model: torch.nn.Module,
           train_dataloader: torch.utils.data.DataLoader,
           test_dataloader: torch.utils.data.DataLoader,
           optimizer: torch.optim.Optimizer,
+          model_name:str = None,
           loss_fn: torch.nn.Module = nn.CrossEntropyLoss(),
           results = None,
           epochs: int = 5,
           number_ep = 1000):
 
-
+    if model_name == None:
+        model_name = type(model).__name__ 
     for epoch in tqdm(range( epochs)):
         print(f'epoch : {epoch}')
         results = train_step(model=model,
@@ -193,6 +195,14 @@ def train(model: torch.nn.Module,
                               results = results,
                               number_ep = number_ep
                              )
+        # ذخیره Checkpoint
+        from vision.Config import dir_history_model
+        checkpoint_path = f"{dir_history_model}/{model_name}/model_epoch_{epoch}.pth"
+        torch.save({
+            'epoch': epoch,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+        }, checkpoint_path)
 
 
 
