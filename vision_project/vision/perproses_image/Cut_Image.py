@@ -8,7 +8,7 @@ from pycocotools.coco import COCO
 from tqdm import tqdm
 import random
 import matplotlib as plt
-
+from diskcache import Cache
 
 
 class CutImage:
@@ -50,43 +50,27 @@ class CutImage:
 
         # Initialize COCO API
         self._coco = COCO(str(self.ann_file))
+        
+        self._cache = Cache('./__dataset__coco/image_cache')  # یا هر مسیر سریع‌تر
+
 
     def _read_image(self, path: Path) -> Optional[np.ndarray]:
         """
         Read image from disk with LRU caching. Evict oldest entries
         when cache is full or system memory usage exceeds threshold.
         """
-        # Cache hit: move to end (most recently used)
-        if path in self._cache:
-            img = self._cache.pop(path)
-            self._cache[path] = img
-            return img
+       
+        key = str(path)
+        if key in self._cache:
+            return self._cache[key]
 
-        # Check system memory and cache size for eviction
-        mem_percent = psutil.virtual_memory().percent
-        # Evict if memory usage too high
-        while self._cache and mem_percent >= self._memory_threshold:
-            evicted_path, _ = self._cache.popitem(last=False)
-            if self._use_ram :
-              self._use_ram  = False
-
-              print(f"\n High memory usage {mem_percent:.1f}%  , evicted {evicted_path}")
-            mem_percent = psutil.virtual_memory().percent
-        # Evict oldest if cache full
-        if len(self._cache) >= self._cache_size:
-
-            evicted_path, _ = self._cache.popitem(last=False)
-            # Optional: print(f"Evicted from cache due to size limit: {evicted_path}")
-
-        # Cache miss: load from disk
-        img = cv2.imread(str(path))
-        if img is None:
-            print(f"Warning: failed to read {path}")
-            return None
-
-        # Insert newly read image as most recently used
-        self._cache[path] = img
+        img = cv2.imread(key)
+        if img is not None:
+            self._cache[key] = img
+        else:
+            print(f"Warning: failed to read {key}")
         return img
+
 
     def _get_random_bake(self) -> Path:
         """Return a random bake image path."""
