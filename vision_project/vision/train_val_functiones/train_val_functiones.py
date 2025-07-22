@@ -7,6 +7,7 @@ from mlxtend.plotting import plot_confusion_matrix
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 import pandas as pd
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f'device  : {device}')
@@ -198,6 +199,8 @@ def train(model: torch.nn.Module,
         # ذخیره Checkpoint
         from vision.Config import dir_history_model
         checkpoint_path = f"{dir_history_model}/{model_name}/model_epoch_{epoch}.pth"
+        # اگر پوشه‌ی پدر وجود نداشت، بسازش
+        os.makedirs(os.path.dirname(f"{dir_history_model}/{model_name}"), exist_ok=True)
         torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
