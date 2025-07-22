@@ -38,7 +38,7 @@ def train_step(model: torch.nn.Module,
     # Loop through data loader data batches
     number_data ,number_data1= 0 ,0
     number_all_data = len(dataloader)
-    for batch, (X, y) in enumerate(dataloader):
+    for batch, (X, y) in tqdm(enumerate(dataloader)):
         # Send data to target device
         #y = y.float()
 
@@ -185,7 +185,7 @@ def train(model: torch.nn.Module,
 
     if model_name == None:
         model_name = type(model).__name__ 
-    for epoch in tqdm(range( epochs)):
+    for epoch in range( epochs):
         print(f'epoch : {epoch}')
         results = train_step(model=model,
                               dataloader=train_dataloader,
