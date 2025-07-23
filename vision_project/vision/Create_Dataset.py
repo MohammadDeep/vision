@@ -1,4 +1,4 @@
-from vision.Config import dir_extended_all_folber,dir_extended_dataset_val ,dic_dir , dic_dir_val, dic_name_folber_clases , dic_name_folber_clases_val
+from vision.Config import dir_extended_all_folber ,dic_dir , dic_name_folber_clases 
 from vision.train_val_functiones.im_show import move_or_copy_images_to_folder, tree_directory_images
 from pathlib import Path
 def Create_dataset (dic_name = dic_name_folber_clases ,

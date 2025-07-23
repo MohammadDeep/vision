@@ -4,69 +4,71 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from pathlib import Path
-from vision.Config import dir_dataset_folder_val, dir_dataset_folder
+import os
+import torch
+from torchvision import models
+
+
+from vision.Config import dic_dataset,dir_dataset_orgnal_val, dir_dataset_orgnal
+from vision.Create_Dataset import Create_dataet_dir
+
+
+from torchsummary import summary
+
+
+'''
+==========================================================================
+                                    prameters
+==========================================================================
+'''
+print_line_len = 20
+# انتخاب کن که از کدام دیتاست های استفاده میکنی
+dataset_use = [
+    'all_folber'
+]
+# محل دیتاست های اصلی که برای اموزش  این مدل استفاده شده اند
+dir_folber_val = dir_dataset_orgnal_val
+dir_folber = dic_dataset['all_folber']['dir']
+
+
+
+BATCH_SIZE = 2 ** 7
+
+
+
 '''
 ==========================================================================
                                     path 1
 ==========================================================================
 '''
 
-dir_folber_val = Path(dir_dataset_folder_val , 'inter folder dataset ')
-dir_folber = Path(dir_dataset_folder , 'inter folder dataset ')
-from vision.Create_Dataset import Create_dataset
-from vision.Config import dic_dir_val,dic_dir,dir_dataset_folder,dir_dataset_folder_val, Create_train_data, Create_val_data
-from pathlib import Path
-
-move_or_copy_files = 'copy'
-if Create_train_data:
-    id_class = 1
-    dic_name_folber_clases = {
-
-        f'class_id{id_class}':['core_class' ,'cut_image' , 'box_image'],
-        'calss_other':['non_core_class', 'bake_image_Not']
-
-        }
-
-    dir_folber = Path(dir_dataset_folder , 'extended_dataset_all_folderes')
-
-    Create_dataset (dic_name = dic_name_folber_clases ,
-                         dic_dir = dic_dir,
-                        dir_extended = dir_folber,
-                        move_or_copy_files = move_or_copy_files
-                        )
+print('-'  * print_line_len )
+print('')
+for dirctory in [dir_dataset_orgnal_val, dir_dataset_orgnal]:
+    dirctory = str(dirctory)
+    if os.path.isdir(dirctory):
+        print(f"Original datasets exist -> {dirctory}")
+    else:
+        raise FileNotFoundError(f"Original datasets do not exist ->{dirctory}  You must run the code -> '!python /content/vision/codes/1_Create_dataset_Folder.py'   or Or you are not on the correct path")
 
 
-if Create_val_data:
-    id_class = 1
-    dic_name_folber_clases_val = {
+print('-'  * print_line_len )
+print('Datasets that can be used or created.')
+for key, value in dic_dataset.items():
+    print('     ' ,key)
+print('-'  * print_line_len )
+print('The datasets used in this code.')
 
-        f'class_id{id_class}':['core_class' ,'cut_image' , 'box_image'],
-        'calss_other':['non_core_class', 'bake_image_Not']
+for name in dataset_use:
+    print(f'name : {name}')
+    dirctory = str(dic_dataset[name]['dir'])
+    if os.path.isdir(dirctory):
+        print(f"have dir {dirctory}")
+    else:
+        print(f"have note dir {dirctory}")
+        print('Start creating the dataset')
+        Create_dataet_dir(name)
 
-        }
-
-    dir_folber_val = Path(dir_dataset_folder_val , 'extended_dataset_all_folderes')
-
-    Create_dataset (dic_name = dic_name_folber_clases_val ,
-                        dic_dir = dic_dir_val,
-                        dir_extended = dir_folber_val,
-                        move_or_copy_files = move_or_copy_files
-                        )
-
-    dic_name_folber_clases_val = {
-
-        f'class_id{id_class}':['core_class' ],
-        'calss_other':[ 'bake_image_Not']
-
-        }
-
-    dir_folber_val_1 = Path(dir_dataset_folder_val , 'extended_dataset_bakeImageNot_and_coreClass_folderes')
-
-    Create_dataset (dic_name = dic_name_folber_clases_val ,
-                        dic_dir = dic_dir_val,
-                        dir_extended = dir_folber_val_1,
-                        move_or_copy_files = move_or_copy_files
-                        )
 
 
 '''
@@ -91,7 +93,7 @@ transform_val = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-BATCH_SIZE = 2 ** 7
+
 # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
 dataset_val = datasets.ImageFolder(root=dir_folber_val, transform=transform_val)
 dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, pin_memory=True)
@@ -111,9 +113,6 @@ print(dataset_train.class_to_idx)
 ==========================================================================
 '''
 
-import torch
-from torch import nn
-from torchvision import models
 
 class HumanPresenceSqueezeNet(nn.Module):
     def __init__(self,
@@ -166,13 +165,13 @@ summary(model_3, (3, 224, 224))
 ==========================================================================
 '''
 
-'''
+
 # 3. تعریف تابع از دست دادن (Loss) و بهینه‌ساز
 # استفاده از BCEWithLogitsLoss که برای خروجی باینری سیگموید استفاده می‌شود
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 pos_weight = torch.tensor([1]).to(device)
 loss_function_3 = nn.BCEWithLogitsLoss(pos_weight=pos_weight)  # این تابع از سیگموید به‌طور داخلی استفاده می‌کند
-optimizer_3= optim.Adam(model_3.parameters(), lr=0.0001)'''
+optimizer_3= optim.Adam(model_3.parameters(), lr=0.0001)
 
 
 

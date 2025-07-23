@@ -4,9 +4,9 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from pathlib import Path
-from vision.Config import dir_dataset_folder_val, dir_dataset_folder
-from pathlib import Path
 import os
+import torch
+from torchvision import models
 
 
 from vision.Config import dic_dataset,dir_dataset_orgnal_val, dir_dataset_orgnal
@@ -116,9 +116,6 @@ print(dataset_train.class_to_idx)
 ==========================================================================
 '''
 
-import torch
-from torch import nn
-from torchvision import models
 
 class HumanPresenceSqueezeNet(nn.Module):
     def __init__(self,
