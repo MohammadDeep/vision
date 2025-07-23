@@ -1,9 +1,9 @@
-from vision.Config import dir_extended_dataset,dir_extended_dataset_val ,dic_dir , dic_dir_val, dic_name_folber_clases , dic_name_folber_clases_val
+from vision.Config import dir_extended_all_folber,dir_extended_dataset_val ,dic_dir , dic_dir_val, dic_name_folber_clases , dic_name_folber_clases_val
 from vision.train_val_functiones.im_show import move_or_copy_images_to_folder, tree_directory_images
 from pathlib import Path
 def Create_dataset (dic_name = dic_name_folber_clases ,
                     dic_dir = dic_dir,
-                    dir_extended = dir_extended_dataset,
+                    dir_extended = dir_extended_all_folber,
                     move_or_copy_files = 'move'
                     ):
     for class_name in dic_name:
@@ -17,4 +17,15 @@ def Create_dataset (dic_name = dic_name_folber_clases ,
             )
 
     tree_directory_images(str(dir_extended))
+
+from vision.Config import dic_dataset
+
+def Create_dataet_dir(name , dic_dataset = dic_dataset, move_or_copy_files = 'copy'):
+    data_dir = dic_dataset[name]
+    Create_dataset (dic_name = data_dir['dic_name'] ,
+                    dic_dir = data_dir['dic_dir'],
+                    dir_extended = data_dir['dir'],
+                    move_or_copy_files = move_or_copy_files
+                    )
+
 

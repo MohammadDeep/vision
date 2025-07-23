@@ -68,9 +68,52 @@ dic_name_folber_clases_val = {
     'calss_other':['non_core_class', 'bake_image_Not']
 
     }
+dic_name_cut_image_non_core_class = {
+    
+    f'class_id{list_calsses[0]}':['cut_image'],
+    'calss_other':['non_core_class']
 
-dir_extended_dataset_val = Path(dir_dataset_folder_val , 'extended_dataset')
-dir_extended_dataset = Path(dir_dataset_folder , 'extended_dataset')
+    }
+dic_name_all_folber = {
+    
+    f'class_id{list_calsses[0]}':['core_class' ,'cut_image' , 'box_image'],
+    'calss_other':['non_core_class', 'bake_image_Not']
+
+    }
+
+
+dir_extended_all_folber_val = Path(dir_dataset_folder_val , 'all_folber_dataset')
+dir_extended_cut_image_non_core_class_val = Path(dir_dataset_folder_val , 'cut_image_non_core_class')
+
+
+dir_extended_all_folber = Path(dir_dataset_folder , 'all_folber_dataset')
+dir_extended_cut_image_non_core_class = Path(dir_dataset_folder , 'cut_image_non_core_class')
+
+
+dic_dataset = {
+    'all_folber_val' : {
+        'dir' : dir_extended_all_folber_val,
+        'dic_name': dic_name_all_folber,
+        'dic_dir': dic_dir_val
+    },
+    'cut_image_non_core_class_val':{
+        'dir' : dir_extended_cut_image_non_core_class_val,
+        'dic_name': dic_name_cut_image_non_core_class,
+        'dic_dir': dic_dir_val
+    },
+    'all_folber' : {
+        'dir' : dir_extended_all_folber,
+        'dic_name': dic_name_all_folber,
+        'dic_dir': dic_dir
+    },
+    'cut_image_non_core_class':{
+        'dir' : dir_extended_cut_image_non_core_class,
+        'dic_name': dic_name_cut_image_non_core_class,
+        'dic_dir': dic_dir
+    } 
+
+}
+
 # urn code for Create data
 Create_train_data = True
 Create_val_data = True
