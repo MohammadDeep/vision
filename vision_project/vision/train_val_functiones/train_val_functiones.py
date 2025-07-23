@@ -121,7 +121,7 @@ def test_step(model: torch.nn.Module,
     # Turn on inference context manager
     with torch.no_grad():
         # Loop through DataLoader batches
-        for batch, (X, y) in enumerate(dataloader):
+        for batch, (X, y) in tqdm(enumerate(dataloader)):
 
             # Send data to target device
             #y = y.float()
