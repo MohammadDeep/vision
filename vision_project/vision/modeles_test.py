@@ -30,7 +30,7 @@ def find_files_by_content(folder_path, file_extension, start_name):
 
 def test_model(
         dic_model,
-        dataset_dir = dir_extended_all_folber_val,
+        list_dataset_dir = [dir_extended_all_folber_val],
         model_loss_funciont = nn.BCEWithLogitsLoss(),
         model_save_dir = dir_history_model,
         BATCH_SIZE = 2 ** 7,
@@ -45,38 +45,52 @@ def test_model(
     mean = dic_model['mean']
     std = dic_model['std']
 
-    transform_val = transforms.Compose([
-    transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
-    transforms.ToTensor(),
-    transforms.Normalize(mean=mean, std=std)
-    ])
-
-
-    # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
-    dataset_val = datasets.ImageFolder(root=dataset_dir, transform=transform_val)
-    dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
-
-
-
-
-
-
-
     if text_to_find is None:
         text_to_find = model_name
     dires_model = find_files_by_content(model_save_dir, extension, text_to_find)
     
+    dic_result ={}
 
-    for dir_model in dires_model:
-        print(f'test model save in dir -> {dir_model}')
-        print('loadin model:')
-        model_load = load_model(
-                model_stucher,
-                dir_model
-            )
-        
-        
-        test_step(model_load,
-              dataloader_val,
-              model_loss_funciont,
-              show_plot_and_F1 = True)
+    for dataset_dir  in list_dataset_dir:
+
+        transform_val = transforms.Compose([
+        transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
+        transforms.ToTensor(),
+        transforms.Normalize(mean=mean, std=std)
+        ])
+
+
+        # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
+        dataset_val = datasets.ImageFolder(root=dataset_dir, transform=transform_val)
+        dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
+
+
+
+
+
+
+
+        for dir_model in dires_model:
+            print(f'test model save in dir -> {dir_model}')
+            print('loadin model:')
+            model_load = load_model(
+                    model_stucher,
+                    dir_model
+                )
+            
+            
+            loss, acc , F1= test_step(model_load,
+                            dataloader_val,
+                            model_loss_funciont,
+                            show_plot_and_F1 = True)
+                        
+            dic_result[f'{dir_model}'] = {
+                'dir_dataset':dataset_dir,
+                'loss' : loss,
+                'accuracy': acc,
+                'F1' : F1
+                }
+            
+
+
+    return dic_result
