@@ -14,7 +14,7 @@ from torchvision import models
 
 
 
-from vision.Config import dir_history_model,dir_extended_all_folber_val
+from vision.Config import dir_history_model_google_dirve ,dir_extended_all_folber_val
 from vision.train_val_functiones.train_val_functiones import load_model, test_step
 
 def find_files_by_content(folder_path, file_extension, start_name):
@@ -32,7 +32,7 @@ def test_model(
         dic_model,
         list_dataset_dir = [dir_extended_all_folber_val],
         model_loss_funciont = nn.BCEWithLogitsLoss(),
-        model_save_dir = dir_history_model,
+        model_save_dir = dir_history_model_google_dirve ,
         BATCH_SIZE = 2 ** 7,
         extension = '.pth',
         text_to_find = None

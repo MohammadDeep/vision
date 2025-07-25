@@ -122,3 +122,4 @@ Create_val_data = True
 
 # dir history and models save in
 dir_history_model = Path('./__history_and_modeles/')
+dir_history_model_google_dirve = Path('/content/drive/MyDrive')
