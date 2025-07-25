@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 import pandas as pd
 import os
+from torchmetrics.classification import F1Score
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f'device  : {device}')
@@ -154,6 +156,10 @@ def test_step(model: torch.nn.Module,
       confmat_tensor = confmat(y_pred_tensor.to(device),
                               y_true_tensor.to(device))
       # حال confmat_tensor یک Tensor از شکل (C, C) است
+      # تعریف و محاسبه‌ی F1-Score
+      f1 = F1Score(num_classes=2, task='binary').to(device)
+      f1_score = f1(y_pred_tensor.to(device), y_true_tensor.to(device)).item()
+      print(f"F1-Score on Test Set: {f1_score:.4f}")
 
       # 5. رسم ماتریس سردرگمی با mlxtend
 
@@ -165,6 +171,10 @@ def test_step(model: torch.nn.Module,
       )
       plt.title("Confusion Matrix on Test Set")
       plt.show()
+          # Adjust metrics to get average loss and accuracy per batch
+      test_loss = test_loss / len(dataloader)
+      test_acc = test_acc / len(dataloader)
+      return test_loss, test_acc, f1_score
     # Adjust metrics to get average loss and accuracy per batch
     test_loss = test_loss / len(dataloader)
     test_acc = test_acc / len(dataloader)
