@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Create forlder dataset 
 #train
-if Create_train_data:
+if Create_train_data and image_dir.is_dir():
         train_data =  getDataFoalberCoco(
                 image_dir  ,
                 ann_file,
@@ -37,7 +37,7 @@ if Create_train_data:
         imm_train.create_cut_images( 10000 )
         
 ## val
-if Create_val_data:
+if Create_val_data and image_val_dir.is_dir():
         val_data =  getDataFoalberCoco(
                 image_val_dir  ,
                 ann_file_val,
