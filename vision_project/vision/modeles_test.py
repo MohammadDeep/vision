@@ -123,10 +123,10 @@ def test_model(
                     loss,
                     acc,
                     F1, 
-                    Tensor_T_F[0]/sum_all_data_len,
-                    Tensor_T_F[1]/sum_all_data_len,
-                    Tensor_T_F[2]/sum_all_data_len,
-                    Tensor_T_F[3]/sum_all_data_len,
+                    Tensor_T_F[0][0]/sum_all_data_len,
+                    Tensor_T_F[0][1]/sum_all_data_len,
+                    Tensor_T_F[1][1]/sum_all_data_len,
+                    Tensor_T_F[1][0]/sum_all_data_len,
                     sum_all_data_len
                 ]
             
