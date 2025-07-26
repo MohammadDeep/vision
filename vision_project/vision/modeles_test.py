@@ -79,7 +79,7 @@ def test_model(
                 )
             
             
-            loss, acc , F1= test_step(model_load,
+            loss, acc , F1, Tensor_T_F= test_step(model_load,
                             dataloader_val,
                             model_loss_funciont,
                             show_plot_and_F1 = True)
@@ -88,7 +88,11 @@ def test_model(
                 'dir_dataset':dataset_dir,
                 'loss' : loss,
                 'accuracy': acc,
-                'F1' : F1
+                'F1' : F1, 
+                'TT': Tensor_T_F[0],
+                'FT': Tensor_T_F[1],
+                'TF': Tensor_T_F[2],
+                'FF': Tensor_T_F[3],
                 }
             
 
