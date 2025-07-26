@@ -40,3 +40,7 @@ __*/
 *.webp
 *.heic
 *.raw
+
+
+# skrept files
+.gitpush.sh
