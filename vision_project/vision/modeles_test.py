@@ -105,12 +105,13 @@ def test_model(
                 print('-' * 50)
                 print(f'test model save in dir -> {dir_model}')
                 print('loadin model:')
-                model_load = load_model(
-                        model_stucher,
-                        dir_model
-                    )
-                
                 try:
+                    model_load = load_model(
+                            model_stucher,
+                            dir_model
+                        )
+                
+                
                     loss, acc , F1, Tensor_T_F= test_step(model_load,
                                     dataloader_val,
                                     model_loss_funciont,
