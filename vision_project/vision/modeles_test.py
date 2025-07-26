@@ -64,11 +64,11 @@ def test_model(
     
 
     file_path = Path(dir_history_model_google_dirve , file_path)
-
+    print ('-' * 50)
     if os.path.exists(file_path):
         df_result = pd.read_csv(file_path)
-        print("read file:")
-        print(df_result.head())
+        print("read file.")
+        
         if df_result.columns.tolist() != columns:
             print("⚠️ Columns note True ")
             df_result = pd.DataFrame(columns= columns)

@@ -115,7 +115,7 @@ dic_dataset = {
 }
 
 # urn code for Create data
-Create_train_data = False
+Create_train_data = True
 Create_val_data = True
 
 
