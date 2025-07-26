@@ -9,7 +9,8 @@ from pathlib import Path
 import os
 import torch
 from torchvision import models
-
+import os
+import pandas as pd
 
 
 
@@ -35,7 +36,8 @@ def test_model(
         model_save_dir = dir_history_model_google_dirve ,
         BATCH_SIZE = 2 ** 7,
         extension = '.pth',
-        text_to_find = None
+        text_to_find = None,
+        file_path = 'test_model/test_all_model.csv'
          ):
     
 
@@ -45,14 +47,39 @@ def test_model(
     mean = dic_model['mean']
     std = dic_model['std']
 
+    columns= ['model_name',
+                'dir_dataset',
+                'loss',
+                'accuracy',
+                'F1' , 
+                'TT',
+                'FT',
+                'TF',
+                'FF',
+                'sum_all_data']
+
     if text_to_find is None:
         text_to_find = model_name
     dires_model = find_files_by_content(model_save_dir, extension, text_to_find)
     
-    dic_result ={}
+
+    file_path = Path(dir_history_model_google_dirve , file_path)
+
+    if os.path.exists(file_path):
+        df_result = pd.read_csv(file_path)
+        print("read file:")
+        print(df_result.head())
+        if df_result.columns.tolist() != columns:
+            print("⚠️ Columns note True ")
+            df_result = pd.DataFrame(columns= columns)
+    else:
+        print("⚠️ Create new dataframe ")
+        df_result = pd.DataFrame(columns= columns)
+
+    
 
     for dataset_dir  in list_dataset_dir:
-
+        dataset_dir = Path(dataset_dir)
         transform_val = transforms.Compose([
         transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
         transforms.ToTensor(),
@@ -71,30 +98,45 @@ def test_model(
 
 
         for dir_model in dires_model:
-            print(f'test model save in dir -> {dir_model}')
-            print('loadin model:')
-            model_load = load_model(
-                    model_stucher,
-                    dir_model
-                )
+            dir_model = Path(dir_model)
+            condition = (df_result['model_name'] == dir_model.stem) & (df_result['dir_dataset'] == dataset_dir.stem)
+            
+            if df_result[condition].empty:
+
+                print(f'test model save in dir -> {dir_model}')
+                print('loadin model:')
+                model_load = load_model(
+                        model_stucher,
+                        dir_model
+                    )
+                
+                
+                loss, acc , F1, Tensor_T_F= test_step(model_load,
+                                dataloader_val,
+                                model_loss_funciont,
+                                show_plot_and_F1 = True)
+                
+                sum_all_data_len = Tensor_T_F.sum()
+                df_result.loc[len(df_result)] = [
+                    dir_model.stem,
+                    dataset_dir.stem,
+                    loss,
+                    acc,
+                    F1, 
+                    Tensor_T_F[0]/sum_all_data_len,
+                    Tensor_T_F[1]/sum_all_data_len,
+                    Tensor_T_F[2]/sum_all_data_len,
+                    Tensor_T_F[3]/sum_all_data_len,
+                    sum_all_data_len
+                ]
             
             
-            loss, acc , F1, Tensor_T_F= test_step(model_load,
-                            dataloader_val,
-                            model_loss_funciont,
-                            show_plot_and_F1 = True)
-                        
-            dic_result[f'{dir_model}'] = {
-                'dir_dataset':dataset_dir,
-                'loss' : loss,
-                'accuracy': acc,
-                'F1' : F1, 
-                'TT': Tensor_T_F[0],
-                'FT': Tensor_T_F[1],
-                'TF': Tensor_T_F[2],
-                'FF': Tensor_T_F[3],
-                }
-            
+    df_result = df_result.sort_values(by='model_name')
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    df_result.to_csv(file_path, index=False)
+    print(f'saveing file in dirctory :{file_path}')
+
+    return df_result
 
 
-    return dic_result
