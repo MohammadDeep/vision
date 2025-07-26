@@ -102,7 +102,7 @@ def test_model(
             condition = (df_result['model_name'] == dir_model.stem) & (df_result['dir_dataset'] == dataset_dir.stem)
             
             if df_result[condition].empty:
-
+                print('-' * 50)
                 print(f'test model save in dir -> {dir_model}')
                 print('loadin model:')
                 model_load = load_model(
@@ -110,28 +110,29 @@ def test_model(
                         dir_model
                     )
                 
-                
-                loss, acc , F1, Tensor_T_F= test_step(model_load,
-                                dataloader_val,
-                                model_loss_funciont,
-                                show_plot_and_F1 = True)
-                Tensor_T_F = Tensor_T_F.cpu()
-                sum_all_data_len = Tensor_T_F.sum()
-                df_result.loc[len(df_result)] = [
-                    dir_model.stem,
-                    dataset_dir.stem,
-                    loss,
-                    acc,
-                    F1, 
-                    Tensor_T_F[0][0].item()/sum_all_data_len.item(),
-                    Tensor_T_F[0][1].item()/sum_all_data_len.item(),
-                    Tensor_T_F[1][1].item()/sum_all_data_len.item(),
-                    Tensor_T_F[1][0].item()/sum_all_data_len.item(),
-                    sum_all_data_len.item()
-                ]
+                try:
+                    loss, acc , F1, Tensor_T_F= test_step(model_load,
+                                    dataloader_val,
+                                    model_loss_funciont,
+                                    show_plot_and_F1 = True)
+                    Tensor_T_F = Tensor_T_F.cpu()
+                    sum_all_data_len = Tensor_T_F.sum()
+                    df_result.loc[len(df_result)] = [
+                        dir_model.stem,
+                        dataset_dir.stem,
+                        loss,
+                        acc,
+                        F1, 
+                        Tensor_T_F[0][0].item()/sum_all_data_len.item(),
+                        Tensor_T_F[0][1].item()/sum_all_data_len.item(),
+                        Tensor_T_F[1][1].item()/sum_all_data_len.item(),
+                        Tensor_T_F[1][0].item()/sum_all_data_len.item(),
+                        sum_all_data_len.item()
+                    ]
+                except Exception as e:
+                    print(f"⚠️ Error for model {dir_model.stem}: {e}")
             
-            
-    df_result = df_result.sort_values(by='model_name')
+    df_result = df_result.sort_values(by='model_name').reset_index(drop=True)
     file_path.parent.mkdir(parents=True, exist_ok=True)
     
     df_result.to_csv(file_path, index=False)
