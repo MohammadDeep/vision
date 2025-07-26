@@ -115,7 +115,7 @@ def test_model(
                                 dataloader_val,
                                 model_loss_funciont,
                                 show_plot_and_F1 = True)
-                
+                Tensor_T_F = Tensor_T_F.cpu()
                 sum_all_data_len = Tensor_T_F.sum()
                 df_result.loc[len(df_result)] = [
                     dir_model.stem,
@@ -123,11 +123,11 @@ def test_model(
                     loss,
                     acc,
                     F1, 
-                    Tensor_T_F[0][0]/sum_all_data_len,
-                    Tensor_T_F[0][1]/sum_all_data_len,
-                    Tensor_T_F[1][1]/sum_all_data_len,
-                    Tensor_T_F[1][0]/sum_all_data_len,
-                    sum_all_data_len
+                    Tensor_T_F[0][0].item()/sum_all_data_len.item(),
+                    Tensor_T_F[0][1].item()/sum_all_data_len.item(),
+                    Tensor_T_F[1][1].item()/sum_all_data_len.item(),
+                    Tensor_T_F[1][0].item()/sum_all_data_len.item(),
+                    sum_all_data_len.item()
                 ]
             
             
