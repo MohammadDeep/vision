@@ -165,46 +165,57 @@ def plot_random_samples(model,
     print(f'len(list_colors_False) : {len(index_TF) + len(index_FF)}')
 
     if show_images == 'TT' or show_images == 'all T' or show_images == 'all' :
-      print('Plot TT')
-      imshow_function(
-          img_list=[list_images[i] for i in index_TT],
-          title_list=[list_titles[i] for i in index_TT],
-          color_list=[list_colors[i] for i in index_TT],
-          colum=3,
-          titel = f'{titel}__Plot TT' ,
-          dir_save = dir_save
-      )
+      if len(index_TT) != 0:
+        print('Plot TT')
+        imshow_function(
+            img_list=[list_images[i] for i in index_TT],
+            title_list=[list_titles[i] for i in index_TT],
+            color_list=[list_colors[i] for i in index_TT],
+            colum=3,
+            titel = f'{titel}__Plot TT' ,
+            dir_save = dir_save
+        )
+      else:
+         print('Number TT sample  = 0')
     if show_images == 'TF' or show_images == 'all F'or show_images == 'all' :
-      print('Plot TF')
-      imshow_function(
-          img_list=[list_images[i] for i in index_TF],
-          title_list=[list_titles[i] for i in index_TF],
-          color_list=[list_colors[i] for i in index_TF],
-          colum=3,
-          titel = f'{titel}__Plot TF' ,
-          dir_save = dir_save
-      )
+      if len(index_TF) != 0:
+        print('Plot TF')
+        imshow_function(
+            img_list=[list_images[i] for i in index_TF],
+            title_list=[list_titles[i] for i in index_TF],
+            color_list=[list_colors[i] for i in index_TF],
+            colum=3,
+            titel = f'{titel}__Plot TF' ,
+            dir_save = dir_save
+        )
+      else :
+         print('Number TF sample  = 0')
     if show_images == 'FT' or show_images == 'all T'or show_images == 'all' :
-      print('Plot FT')
-      imshow_function(
-          img_list=[list_images[i] for i in index_FT],
-          title_list=[list_titles[i] for i in index_FT],
-          color_list=[list_colors[i] for i in index_FT],
-          colum=3,
-          titel =f'{titel}__Plot FT' ,
-          dir_save = dir_save
-      )
+      if len(index_FT) != 0:
+        print('Plot FT')
+        imshow_function(
+            img_list=[list_images[i] for i in index_FT],
+            title_list=[list_titles[i] for i in index_FT],
+            color_list=[list_colors[i] for i in index_FT],
+            colum=3,
+            titel =f'{titel}__Plot FT' ,
+            dir_save = dir_save
+        )
+      else:
+        print('Number FT sample  = 0') 
     if show_images == 'FF'  or show_images == 'all F'or show_images == 'all':
-      print('Plot FF')
-      imshow_function(
-          img_list=[list_images[i] for i in index_FF],
-          title_list=[list_titles[i] for i in index_FF],
-          color_list=[list_colors[i] for i in index_FF],
-          colum=3,
-          titel = f'{titel}__Plot FF' ,
-          dir_save = dir_save
-      )
-
+      if len(index_FF) != 0:
+        print('Plot FF')
+        imshow_function(
+            img_list=[list_images[i] for i in index_FF],
+            title_list=[list_titles[i] for i in index_FF],
+            color_list=[list_colors[i] for i in index_FF],
+            colum=3,
+            titel = f'{titel}__Plot FF' ,
+            dir_save = dir_save
+        )
+    else:
+        print('Number FF sample  = 0') 
 
 # show tree file 
 # prompt: نمودار درختی عکس های درون پوشه های تعداد عکس ها
