@@ -167,7 +167,7 @@ def plot_random_image(
     
 
     file_path_image = Path(dir_history_model_google_dirve , file_path_image)
-    file_path_image.parent.mkdir(parents=True, exist_ok=True)
+    file_path_image.mkdir(parents=True, exist_ok=True)
     print('-' * 50)
     print(f'dirctory to save image : {file_path_image}')
 
