@@ -184,7 +184,7 @@ def plot_random_image(
 
         # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
         dataset_val = datasets.ImageFolder(root=dataset_dir, transform=transform_val)
-        dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
+        #dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
 
 
 
@@ -205,7 +205,7 @@ def plot_random_image(
             
             
                 plot_random_samples(model_load,
-                            dataloader_val,
+                            dataset_val,
                             num_samples=num_samples,
                             figsize=figsize
                             , show_images = show_images
