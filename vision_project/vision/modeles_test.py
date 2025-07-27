@@ -165,9 +165,11 @@ def plot_random_image(
         text_to_find = model_name
     dires_model = find_files_by_content(model_save_dir, extension, text_to_find)
     
+    # مسیر پوشه‌ای که می‌خوای بررسی کنی
+    save_dir = Path(f"{model_save_dir}/{file_path_image}")
 
-    file_path_image = Path(dir_history_model_google_dirve , file_path_image)
-    file_path_image.mkdir(parents=True, exist_ok=True)
+    # اگر وجود نداشت، بساز
+    save_dir.mkdir(parents=True, exist_ok=True)
     print('-' * 50)
     print(f'dirctory to save image : {file_path_image}')
 
@@ -215,7 +217,7 @@ def plot_random_image(
                             figsize=figsize
                             , show_images = show_images,
                             titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}'
-                            ,dir_save = file_path_image)
+                            ,dir_save = save_dir)
             except Exception as e:
                 print(f"⚠️ Error for model {dir_model.stem}: {e}")
         
