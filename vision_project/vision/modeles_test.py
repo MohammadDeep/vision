@@ -142,3 +142,80 @@ def test_model(
     return df_result
 
 
+from vision.train_val_functiones.im_show import plot_random_samples
+def plot_random_image(
+        dic_model,
+        list_dataset_dir = [dir_extended_all_folber_val],
+        model_save_dir = dir_history_model_google_dirve ,
+        BATCH_SIZE = 2 ** 7,
+        extension = '.pth',
+        text_to_find = None,
+        file_path = 'test_model/test_all_model.csv',
+        num_samples = 20 , 
+        figsize=(4, 4),
+        show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
+        ):
+
+    model_name= dic_model['model_name']
+    model_stucher = dic_model['model_stucher']
+    input_shape =dic_model['input_shape']
+    mean = dic_model['mean']
+    std = dic_model['std']
+
+    if text_to_find is None:
+        text_to_find = model_name
+    dires_model = find_files_by_content(model_save_dir, extension, text_to_find)
+    
+
+    file_path = Path(dir_history_model_google_dirve , file_path)
+    print ('-' * 50)
+
+
+    
+
+    for dataset_dir  in list_dataset_dir:
+        dataset_dir = Path(dataset_dir)
+        transform_val = transforms.Compose([
+        transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
+        transforms.ToTensor(),
+        transforms.Normalize(mean=mean, std=std)
+        ])
+
+
+        # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
+        dataset_val = datasets.ImageFolder(root=dataset_dir, transform=transform_val)
+        dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
+
+
+
+
+
+
+
+        for dir_model in dires_model:
+            dir_model = Path(dir_model)
+            
+            
+        
+            try:
+                model_load = load_model(
+                        model_stucher,
+                        dir_model
+                    )
+            
+            
+                plot_random_samples(model_load,
+                            dataloader_val,
+                            num_samples=num_samples,
+                            figsize=figsize
+                            , show_images = show_images
+                            )
+            except Exception as e:
+                print(f"⚠️ Error for model {dir_model.stem}: {e}")
+        
+
+
+
+
+
+
