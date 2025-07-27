@@ -20,7 +20,7 @@ def imshow_function(
         row=None, 
         colum=3, 
         title_list=None,
-        title = None,
+        titel = None,
         dir_save = None):
     """
     نمایش چند تصویر در یک شکل (figure) با استفاده از تنسورهای PyTorch.
@@ -67,10 +67,10 @@ def imshow_function(
         else:
             # اگر تصویری وجود ندارد (تعداد تصاویر کمتر از row*colum)، ساب‌پلات را خاموش می‌کنیم
             ax.axis('off')
-    if title:
-        plt.suptitle(title, fontsize=18)
+    if titel:
+        plt.suptitle(titel, fontsize=18)
     if dir_save:
-       dir_save = Path(dir_save , f'{title}.png' )
+       dir_save = Path(dir_save , f'{titel}.png' )
        plt.savefig(dir_save)
 
     plt.tight_layout()
