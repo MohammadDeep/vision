@@ -14,7 +14,14 @@ import shutil
 from typing import Literal
 from pathlib import Path
 
-def imshow_function(img_list, color_list, row=None, colum=3, title_list=None):
+def imshow_function(
+      
+      img_list, color_list,
+        row=None, 
+        colum=3, 
+        title_list=None,
+        title = None,
+        dir_save = None):
     """
     نمایش چند تصویر در یک شکل (figure) با استفاده از تنسورهای PyTorch.
     پارامترها:
@@ -60,6 +67,11 @@ def imshow_function(img_list, color_list, row=None, colum=3, title_list=None):
         else:
             # اگر تصویری وجود ندارد (تعداد تصاویر کمتر از row*colum)، ساب‌پلات را خاموش می‌کنیم
             ax.axis('off')
+    if title:
+        plt.suptitle(title, fontsize=18)
+    if dir_save:
+       dir_save = Path(dir_save , f'{title}.png' )
+       plt.savefig(dir_save)
 
     plt.tight_layout()
     plt.show()
@@ -70,7 +82,8 @@ def plot_random_samples(model,
                         num_samples=5,
                         figsize=(4, 4)
                         , show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
-                          ):
+                         , titel = None,
+                         dir_save = None):
     """
     انتخاب نمونه‌های تصادفی از دیتاست تست، پیش‌بینی با مدل، و نمایش آنها.
     اگر پیش‌بینی درست باشد، عنوان با رنگ آبی و در غیر این صورت با رنگ قرمز نمایش داده می‌شود.
@@ -157,7 +170,9 @@ def plot_random_samples(model,
           img_list=[list_images[i] for i in index_TT],
           title_list=[list_titles[i] for i in index_TT],
           color_list=[list_colors[i] for i in index_TT],
-          colum=3
+          colum=3,
+          titel = titel,
+          dir_save = dir_save
       )
     if show_images == 'TF' or show_images == 'all F'or show_images == 'all' :
       print('Plot TF')
@@ -165,7 +180,9 @@ def plot_random_samples(model,
           img_list=[list_images[i] for i in index_TF],
           title_list=[list_titles[i] for i in index_TF],
           color_list=[list_colors[i] for i in index_TF],
-          colum=3
+          colum=3,
+          titel = titel,
+          dir_save = dir_save
       )
     if show_images == 'FT' or show_images == 'all T'or show_images == 'all' :
       print('Plot FT')
@@ -173,7 +190,9 @@ def plot_random_samples(model,
           img_list=[list_images[i] for i in index_FT],
           title_list=[list_titles[i] for i in index_FT],
           color_list=[list_colors[i] for i in index_FT],
-          colum=3
+          colum=3,
+          titel = titel,
+          dir_save = dir_save
       )
     if show_images == 'FF'  or show_images == 'all F'or show_images == 'all':
       print('Plot FF')
@@ -181,7 +200,9 @@ def plot_random_samples(model,
           img_list=[list_images[i] for i in index_FF],
           title_list=[list_titles[i] for i in index_FF],
           color_list=[list_colors[i] for i in index_FF],
-          colum=3
+          colum=3,
+          titel = titel,
+          dir_save = dir_save
       )
 
 

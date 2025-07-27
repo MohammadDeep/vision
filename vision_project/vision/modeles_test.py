@@ -147,10 +147,9 @@ def plot_random_image(
         dic_model,
         list_dataset_dir = [dir_extended_all_folber_val],
         model_save_dir = dir_history_model_google_dirve ,
-        BATCH_SIZE = 2 ** 7,
         extension = '.pth',
         text_to_find = None,
-        file_path = 'test_model/test_all_model.csv',
+        file_path = 'image_sampel_result',
         num_samples = 20 , 
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
@@ -168,12 +167,14 @@ def plot_random_image(
     
 
     file_path = Path(dir_history_model_google_dirve , file_path)
-    print ('-' * 50)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
 
 
     
 
     for dataset_dir  in list_dataset_dir:
+        print ('-' * 50)
+        print(f'Create dataset for data in folder :{dataset_dir}')
         dataset_dir = Path(dataset_dir)
         transform_val = transforms.Compose([
         transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
@@ -195,9 +196,11 @@ def plot_random_image(
         for dir_model in dires_model:
             dir_model = Path(dir_model)
             
-            
-        
+            print('-' * 50)
+            print(f'model : {dir_model.stem } and dataset : {dataset_dir.stem}')
+
             try:
+
                 model_load = load_model(
                         model_stucher,
                         dir_model
@@ -208,8 +211,9 @@ def plot_random_image(
                             dataset_val,
                             num_samples=num_samples,
                             figsize=figsize
-                            , show_images = show_images
-                            )
+                            , show_images = show_images,
+                            titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}'
+                            ,dir_save = file_path)
             except Exception as e:
                 print(f"⚠️ Error for model {dir_model.stem}: {e}")
         
