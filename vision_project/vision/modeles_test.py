@@ -149,7 +149,7 @@ def plot_random_image(
         model_save_dir = dir_history_model_google_dirve ,
         extension = '.pth',
         text_to_find = None,
-        file_path = 'image_sampel_result',
+        file_path_image = 'image_sampel_result',
         num_samples = 20 , 
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
@@ -166,10 +166,10 @@ def plot_random_image(
     dires_model = find_files_by_content(model_save_dir, extension, text_to_find)
     
 
-    file_path = Path(dir_history_model_google_dirve , file_path)
-    file_path.parent.mkdir(parents=True, exist_ok=True)
+    file_path_image = Path(dir_history_model_google_dirve , file_path_image)
+    file_path_image.parent.mkdir(parents=True, exist_ok=True)
     print('-' * 50)
-    print(f'dirctory to save image : {file_path}')
+    print(f'dirctory to save image : {file_path_image}')
 
 
     
@@ -215,7 +215,7 @@ def plot_random_image(
                             figsize=figsize
                             , show_images = show_images,
                             titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}'
-                            ,dir_save = file_path)
+                            ,dir_save = file_path_image)
             except Exception as e:
                 print(f"⚠️ Error for model {dir_model.stem}: {e}")
         
