@@ -171,7 +171,7 @@ def plot_random_samples(model,
           title_list=[list_titles[i] for i in index_TT],
           color_list=[list_colors[i] for i in index_TT],
           colum=3,
-          titel = titel,
+          titel = f'{titel}-> Plot TT' ,
           dir_save = dir_save
       )
     if show_images == 'TF' or show_images == 'all F'or show_images == 'all' :
@@ -181,7 +181,7 @@ def plot_random_samples(model,
           title_list=[list_titles[i] for i in index_TF],
           color_list=[list_colors[i] for i in index_TF],
           colum=3,
-          titel = titel,
+          titel = f'{titel}-> Plot TF' ,
           dir_save = dir_save
       )
     if show_images == 'FT' or show_images == 'all T'or show_images == 'all' :
@@ -191,7 +191,7 @@ def plot_random_samples(model,
           title_list=[list_titles[i] for i in index_FT],
           color_list=[list_colors[i] for i in index_FT],
           colum=3,
-          titel = titel,
+          titel =f'{titel}-> Plot FT' ,
           dir_save = dir_save
       )
     if show_images == 'FF'  or show_images == 'all F'or show_images == 'all':
@@ -201,7 +201,7 @@ def plot_random_samples(model,
           title_list=[list_titles[i] for i in index_FF],
           color_list=[list_colors[i] for i in index_FF],
           colum=3,
-          titel = titel,
+          titel = f'{titel}-> Plot FF' ,
           dir_save = dir_save
       )
 
