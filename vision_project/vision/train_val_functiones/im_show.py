@@ -67,7 +67,7 @@ def imshow_function(
 
             # محاسبه اندازه فونت بر اساس ارتفاع تصویر
             # به طور تجربی: font_size = ارتفاع تصویر / یک مقدار ثابت
-            font_size = max(12, height // 20)  # محدودیت حداقل
+            font_size = max(12, height // 30)  # محدودیت حداقل
 
             ax.set_title(title, color=color,fontsize=font_size)
             ax.axis('off')
