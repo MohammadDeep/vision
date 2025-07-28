@@ -72,21 +72,9 @@ def imshow_function(
             subplot_height_inches = fig.get_size_inches()[1] / row
             subplot_width_inches  = fig.get_size_inches()[0] / colum
 
-            # طول تایتل به تعداد کاراکتر
-            title_length = len(title)
-
-            # نسبت به عرض ساب‌پلات، چند کاراکتر جا می‌شود؟ (حدسی: ~2.2 کاراکتر در هر اینچ)
-            max_chars_per_line = subplot_width_inches * 2.2
-
-            # اگر عنوان از ظرفیت بیشتر بود، فونت را کاهش بده
-            scale_factor = max(0.6, min(1.0, max_chars_per_line / (title_length + 1)))  # محدوده‌ی [0.6, 1.0]
-
-            # فونت پایه نسبت به اندازه فیزیکی
-            base_font_size = min(12, int(min(subplot_height_inches, subplot_width_inches) * 2.5))
-
-            # اندازه نهایی فونت
-            font_size = int(base_font_size * scale_factor)
-
+            subplot_min = min(subplot_height_inches, subplot_width_inches)
+            a = subplot_min / len(title)
+            font_size = int(a / .55 * 72) - 1
             ax.set_title(title, color=color,fontsize=font_size)
             ax.axis('off')
         else:
