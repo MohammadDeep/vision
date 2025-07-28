@@ -37,7 +37,8 @@ def test_model(
         BATCH_SIZE = 2 ** 7,
         extension = '.pth',
         text_to_find = None,
-        file_path = 'test_model/test_all_model.csv'
+        file_path = 'test_model/test_all_model.csv',
+        threshold = 0.5
          ):
     
 
@@ -49,6 +50,7 @@ def test_model(
 
     columns= ['model_name',
                 'dir_dataset',
+                'threshold',
                 'loss',
                 'accuracy',
                 'F1' , 
@@ -56,7 +58,8 @@ def test_model(
                 'FT',
                 'TF',
                 'FF',
-                'sum_all_data']
+                'sum_all_data'
+                ]
 
     if text_to_find is None:
         text_to_find = model_name
@@ -122,12 +125,15 @@ def test_model(
                     loss, acc , F1, Tensor_T_F= test_step(model_load,
                                     dataloader_val,
                                     model_loss_funciont,
-                                    show_plot_and_F1 = True)
+                                    show_plot_and_F1 = True,
+                                    threshold = threshold
+                                    )
                     Tensor_T_F = Tensor_T_F.cpu()
                     sum_all_data_len = Tensor_T_F.sum()
                     df_result.loc[len(df_result)] = [
                         dir_model.stem,
                         dataset_dir.stem,
+                        threshold,
                         loss,
                         acc,
                         F1, 

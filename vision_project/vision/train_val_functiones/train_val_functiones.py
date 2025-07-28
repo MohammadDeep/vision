@@ -110,7 +110,8 @@ def train_step(model: torch.nn.Module,
 def test_step(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
-              show_plot_and_F1 = False):
+              show_plot_and_F1 = False,
+              threshold = 0.5):
     # Put model in eval mode
     model.eval()
 
@@ -141,7 +142,7 @@ def test_step(model: torch.nn.Module,
 
             # Calculate and accumulate accuracy
             #test_pred_labels = test_pred_logits.argmax(dim=1)
-            test_pred_labels = torch.where(test_pred_logits >= 0.5, torch.tensor(1,device=device), torch.tensor(0,device=device))
+            test_pred_labels = torch.where(test_pred_logits >= threshold, torch.tensor(1,device=device), torch.tensor(0,device=device))
             all_preds.append(test_pred_labels)
             all_targets.append(y)
             test_acc += ((test_pred_labels == y).sum().item()/len(test_pred_labels))
