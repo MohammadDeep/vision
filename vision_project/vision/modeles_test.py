@@ -167,7 +167,7 @@ def plot_random_image(
         num_samples = 20 , 
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
-        ):
+        ,threshold = 0.5):
 
     model_name= dic_model['model_name']
     model_stucher = dic_model['model_stucher']
@@ -230,8 +230,9 @@ def plot_random_image(
                             num_samples=num_samples,
                             figsize=figsize
                             , show_images = show_images,
-                            titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}'
-                            ,dir_save = save_dir)
+                            titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}, threshold : {threshold}'
+                            ,dir_save = save_dir,
+                            threshold = threshold)
             except Exception as e:
                 print(f"⚠️ Error for model {dir_model.stem}: {e}")
         

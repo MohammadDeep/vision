@@ -96,7 +96,8 @@ def plot_random_samples(model,
                         figsize=(4, 4)
                         , show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
                          , titel = None,
-                         dir_save = None):
+                         dir_save = None,
+                         threshold = 0.5):
     """
     انتخاب نمونه‌های تصادفی از دیتاست تست، پیش‌بینی با مدل، و نمایش آنها.
     اگر پیش‌بینی درست باشد، عنوان با رنگ آبی و در غیر این صورت با رنگ قرمز نمایش داده می‌شود.
@@ -145,7 +146,7 @@ def plot_random_samples(model,
             else:
                 # فرض بر این است که خروجی سینگولار است (مثلاً sigmoid)
                 prob =  outputs[0][0]
-                if prob > 0.5:
+                if prob > threshold:
                     pred_idx = 1
                 else:
                     pred_idx = 0
