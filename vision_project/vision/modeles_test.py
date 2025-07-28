@@ -86,7 +86,7 @@ def test_model(
     n_dataset = 0
     for dataset_dir  in list_dataset_dir:
         n_dataset = n_dataset + 1
-        print(f'{n_dataset} / {len_dataset} : test model in dataset { dataset_dir.stem}')
+        print(f'{n_dataset}/{len_dataset} : test model in dataset { dataset_dir.stem}')
         dataset_dir = Path(dataset_dir)
         transform_val = transforms.Compose([
         transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
@@ -107,13 +107,13 @@ def test_model(
 
         for dir_model in dires_model:
             dir_model = Path(dir_model)
-            condition = (df_result['model_name'] == dir_model.stem) & (df_result['dir_dataset'] == dataset_dir.stem)
+            condition = (df_result['threshold'] == threshold) &(df_result['model_name'] == dir_model.stem) & (df_result['dir_dataset'] == dataset_dir.stem)
             
             if df_result[condition].empty:
                 print('-' * 50)
                 n_dires_model = n_dires_model + 1
                 print(f'{n_dires_model}/{len_dires_model} : test model save in dir -> {dir_model}')
-                print(f'{n_dataset} / {len_dataset} : dataset : {dataset_dir}')
+                print(f'{n_dataset}/{len_dataset} : dataset : {dataset_dir}')
                 print('loadin model:')
                 try:
                     model_load = load_model(
