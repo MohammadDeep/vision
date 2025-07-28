@@ -104,7 +104,7 @@ def test_model(
 
 
 
-
+        n_dires_model = 0
         for dir_model in dires_model:
             dir_model = Path(dir_model)
             condition = (df_result['threshold'] == threshold) &(df_result['model_name'] == dir_model.stem) & (df_result['dir_dataset'] == dataset_dir.stem)
@@ -112,6 +112,7 @@ def test_model(
             if df_result[condition].empty:
                 print('-' * 50)
                 n_dires_model = n_dires_model + 1
+                print(f'threshold : {threshold}')
                 print(f'{n_dires_model}/{len_dires_model} : test model save in dir -> {dir_model}')
                 print(f'{n_dataset}/{len_dataset} : dataset : {dataset_dir}')
                 print('loadin model:')
