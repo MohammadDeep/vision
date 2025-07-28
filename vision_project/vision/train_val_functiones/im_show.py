@@ -74,7 +74,7 @@ def imshow_function(
 
             subplot_min = min(subplot_height_inches, subplot_width_inches)
             a = subplot_min / len(title)
-            font_size = int(a / .55 * 72) - 1
+            font_size = int(a / .55 * 72) + 1
             ax.set_title(title, color=color,fontsize=font_size)
             ax.axis('off')
         else:
