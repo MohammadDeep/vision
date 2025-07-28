@@ -147,7 +147,7 @@ def test_model(
                 except Exception as e:
                     print(f"⚠️ Error for model {dir_model.stem}: {e}")
             
-    df_result = df_result.sort_values(by='model_name').reset_index(drop=True)
+    df_result = df_result.sort_values(by=['model_name','dir_dataset','threshold']).reset_index(drop=True)
     file_path.parent.mkdir(parents=True, exist_ok=True)
     
     df_result.to_csv(file_path, index=False)
