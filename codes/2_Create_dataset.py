@@ -1,5 +1,5 @@
 from vision.Create_Dataset import Create_dataset
-from vision.Config import dic_dir_val,dic_dir,dir_dataset_folder,dir_dataset_folder_val, Create_train_data, Create_val_data
+from vision.Config import dir_extended_cut_image_non_core_class_val,dir_extended_all_folber,dir_extended_all_folber_val, dic_dir_val,dic_dir,dir_dataset_folder,dir_dataset_folder_val, Create_train_data, Create_val_data
 from pathlib import Path
 
 
@@ -12,11 +12,10 @@ if Create_train_data:
 
         }
 
-    dir_extended_dataset = Path(dir_dataset_folder , 'extended_dataset_all_folderes')
-
+  
     Create_dataset (dic_name = dic_name_folber_clases ,
                          dic_dir = dic_dir,
-                        dir_extended = dir_extended_dataset,
+                        dir_extended = dir_extended_all_folber,
                         move_or_copy_files = 'move'
                         )
     
@@ -30,11 +29,11 @@ if Create_val_data:
 
         }
 
-    dir_extended_dataset = Path(dir_dataset_folder_val , 'extended_dataset_all_folderes')
+    
 
     Create_dataset (dic_name = dic_name_folber_clases_val ,
                         dic_dir = dic_dir_val,
-                        dir_extended = dir_extended_dataset,
+                        dir_extended = dir_extended_all_folber_val,
                         move_or_copy_files = 'move'
                         )
     
@@ -45,10 +44,10 @@ if Create_val_data:
 
         }
 
-    dir_extended_dataset = Path(dir_dataset_folder_val , 'extended_dataset_bakeImageNot_and_coreClass_folderes')
+    
 
     Create_dataset (dic_name = dic_name_folber_clases_val ,
                         dic_dir = dic_dir_val,
-                        dir_extended = dir_extended_dataset,
+                        dir_extended = dir_extended_cut_image_non_core_class_val,
                         move_or_copy_files = 'move'
                         )

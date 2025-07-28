@@ -77,8 +77,13 @@ def test_model(
         df_result = pd.DataFrame(columns= columns)
 
     
-
+    len_dataset = len(list_dataset_dir)
+    len_dires_model = len(dires_model)
+    n_dires_model = 0
+    n_dataset = 0
     for dataset_dir  in list_dataset_dir:
+        n_dataset = n_dataset + 1
+        print(f'{n_dataset} / {len_dataset} : test model in dataset { dataset_dir.stem}')
         dataset_dir = Path(dataset_dir)
         transform_val = transforms.Compose([
         transforms.Resize(input_shape),   # تغییر اندازه به ورودی مدل
@@ -103,7 +108,9 @@ def test_model(
             
             if df_result[condition].empty:
                 print('-' * 50)
-                print(f'test model save in dir -> {dir_model}')
+                n_dires_model = n_dires_model + 1
+                print(f'{n_dires_model}/{len_dires_model} : test model save in dir -> {dir_model}')
+                print(f'{n_dataset} / {len_dataset} : dataset : {dataset_dir}')
                 print('loadin model:')
                 try:
                     model_load = load_model(

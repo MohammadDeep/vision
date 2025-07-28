@@ -62,7 +62,14 @@ def imshow_function(
             img  = np.clip(img, 0, 1)
 
             ax.imshow(img)
-            ax.set_title(title, color=color)
+            # اندازه تصویر (بعد از تبدیل تنسور)
+            height = img.shape[0]  # معادل H در [H, W, C]
+
+            # محاسبه اندازه فونت بر اساس ارتفاع تصویر
+            # به طور تجربی: font_size = ارتفاع تصویر / یک مقدار ثابت
+            font_size = max(12, height // 20)  # محدودیت حداقل
+
+            ax.set_title(title, color=color,fontsize=font_size)
             ax.axis('off')
         else:
             # اگر تصویری وجود ندارد (تعداد تصاویر کمتر از row*colum)، ساب‌پلات را خاموش می‌کنیم
