@@ -22,7 +22,8 @@ def train_step(model: torch.nn.Module,
                optimizer: torch.optim.Optimizer,
                dataloader_test :torch.utils.data.DataLoader,
                results = None,
-               number_ep = 1000):
+               number_ep = 1000,
+               use_sigmoid = True):
     if results is None:
       # 2. Create empty results dictionary
       results = {
@@ -68,7 +69,11 @@ def train_step(model: torch.nn.Module,
 
         # Calculate and accumulate accuracy metrics across all batches
         #y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
-        y_pred_class = torch.where(torch.sigmoid(y_pred) >= 0.5, torch.tensor(1,device=device), torch.tensor(0,device=device))
+        if use_sigmoid:
+            y_perd_1 = torch.sigmoid(y_pred)
+        else:
+            y_perd_1 = y_pred
+        y_pred_class = torch.where(y_perd_1 >= 0.5, torch.tensor(1,device=device), torch.tensor(0,device=device))
         train_acc += (y_pred_class == y).sum().item()/len(y_pred)
         number_data = number_data + 1
         number_data1 = number_data1 + 1
@@ -83,7 +88,8 @@ def train_step(model: torch.nn.Module,
 
           test_loss, test_acc = test_step(model=model,
             dataloader=dataloader_test,
-            loss_fn=loss_fn)
+            loss_fn=loss_fn,
+            use_sigmoid = use_sigmoid)
           print(
             f"number_len : {number_len}| "
             f"train_loss: {train_loss:.4f} | "
@@ -198,7 +204,8 @@ def train(model: torch.nn.Module,
           loss_fn: torch.nn.Module = nn.CrossEntropyLoss(),
           results = None,
           epochs: int = 5,
-          number_ep = 1000):
+          number_ep = 1000,
+          use_sigmoid = True):
 
     if model_name == None:
         model_name = type(model).__name__ 
@@ -210,7 +217,8 @@ def train(model: torch.nn.Module,
                               optimizer=optimizer,
                               dataloader_test = test_dataloader,
                               results = results,
-                              number_ep = number_ep
+                              number_ep = number_ep,
+                              use_sigmoid = use_sigmoid
                              )
         # ذخیره Checkpoint
         from vision.Config import dir_history_model
