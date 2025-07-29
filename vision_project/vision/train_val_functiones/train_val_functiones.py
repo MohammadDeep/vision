@@ -68,7 +68,7 @@ def train_step(model: torch.nn.Module,
 
         # Calculate and accumulate accuracy metrics across all batches
         #y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
-        y_pred_class = torch.where(y_pred >= 0.5, torch.tensor(1,device=device), torch.tensor(0,device=device))
+        y_pred_class = torch.where(torch.sigmoid(y_pred) >= 0.5, torch.tensor(1,device=device), torch.tensor(0,device=device))
         train_acc += (y_pred_class == y).sum().item()/len(y_pred)
         number_data = number_data + 1
         number_data1 = number_data1 + 1
