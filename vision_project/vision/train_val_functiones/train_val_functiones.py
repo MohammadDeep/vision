@@ -142,17 +142,17 @@ def test_step(model: torch.nn.Module,
             model.to(device)
             # 1. Forward pass
             test_pred_logits = model(X)
-            if use_sigmoid : 
-                #print('use sigmoid funciont on output model')
-                # add sigmoid funtion in output
-                test_pred_logits = torch.sigmoid(test_pred_logits)
-
             # 2. Calculate and accumulate loss
             loss = loss_fn(test_pred_logits, y)
             test_loss += loss.item()
 
             # Calculate and accumulate accuracy
             #test_pred_labels = test_pred_logits.argmax(dim=1)
+            if use_sigmoid : 
+                #print('use sigmoid funciont on output model')
+                # add sigmoid funtion in output
+                test_pred_logits = torch.sigmoid(test_pred_logits)
+
             test_pred_labels = torch.where(test_pred_logits >= threshold, torch.tensor(1,device=device), torch.tensor(0,device=device))
             all_preds.append(test_pred_labels)
             all_targets.append(y)
