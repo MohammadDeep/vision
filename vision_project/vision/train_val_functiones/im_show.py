@@ -139,6 +139,8 @@ def plot_random_samples(model,
         # پیش‌بینی مدل
         with torch.no_grad():
             outputs = model(img_input)
+            # add sigmoid function 
+            outputs = torch.sigmoid(outputs)
             # اگر بیش از دو کلاس داریم از argmax استفاده می‌کنیم
             if len(idx_to_class) > 2:
                 _, pred_idx = torch.max(outputs, 1)

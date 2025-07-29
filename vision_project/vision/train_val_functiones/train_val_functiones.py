@@ -135,6 +135,8 @@ def test_step(model: torch.nn.Module,
             model.to(device)
             # 1. Forward pass
             test_pred_logits = model(X)
+            # add sigmoid funtion in output
+            test_pred_logits = torch.sigmoid(test_pred_logits)
 
             # 2. Calculate and accumulate loss
             loss = loss_fn(test_pred_logits, y)
