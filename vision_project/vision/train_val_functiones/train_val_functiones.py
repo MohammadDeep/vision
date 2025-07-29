@@ -111,7 +111,8 @@ def test_step(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
               show_plot_and_F1 = False,
-              threshold = 0.5):
+              threshold = 0.5,
+              use_sigmoid = True):
     # Put model in eval mode
     model.eval()
 
@@ -135,8 +136,10 @@ def test_step(model: torch.nn.Module,
             model.to(device)
             # 1. Forward pass
             test_pred_logits = model(X)
-            # add sigmoid funtion in output
-            test_pred_logits = torch.sigmoid(test_pred_logits)
+            if use_sigmoid : 
+                print('use sigmoid funciont on output model')
+                # add sigmoid funtion in output
+                test_pred_logits = torch.sigmoid(test_pred_logits)
 
             # 2. Calculate and accumulate loss
             loss = loss_fn(test_pred_logits, y)

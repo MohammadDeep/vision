@@ -38,7 +38,8 @@ def test_model(
         extension = '.pth',
         text_to_find = None,
         file_path = 'test_model/test_all_model.csv',
-        threshold = 0.5
+        threshold = 0.5,
+        use_sigmoid = True
          ):
     
 
@@ -127,7 +128,8 @@ def test_model(
                                     dataloader_val,
                                     model_loss_funciont,
                                     show_plot_and_F1 = True,
-                                    threshold = threshold
+                                    threshold = threshold,
+                                    use_sigmoid = use_sigmoid
                                     )
                     Tensor_T_F = Tensor_T_F.cpu()
                     sum_all_data_len = Tensor_T_F.sum()
@@ -167,7 +169,8 @@ def plot_random_image(
         num_samples = 20 , 
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
-        ,threshold = 0.5):
+        ,threshold = 0.5,
+        use_sigmoid = True):
 
     model_name= dic_model['model_name']
     model_stucher = dic_model['model_stucher']
@@ -232,7 +235,8 @@ def plot_random_image(
                             , show_images = show_images,
                             titel = f'model : {dir_model.stem } and dataset : {dataset_dir.stem}, threshold : {threshold}'
                             ,dir_save = save_dir,
-                            threshold = threshold)
+                            threshold = threshold, 
+                            use_sigmoid = use_sigmoid)
             except Exception as e:
                 print(f"⚠️ Error for model {dir_model.stem}: {e}")
         

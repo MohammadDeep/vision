@@ -97,7 +97,8 @@ def plot_random_samples(model,
                         , show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
                          , titel = None,
                          dir_save = None,
-                         threshold = 0.5):
+                         threshold = 0.5,
+                         use_sigmoid = False):
     """
     انتخاب نمونه‌های تصادفی از دیتاست تست، پیش‌بینی با مدل، و نمایش آنها.
     اگر پیش‌بینی درست باشد، عنوان با رنگ آبی و در غیر این صورت با رنگ قرمز نمایش داده می‌شود.
@@ -140,7 +141,9 @@ def plot_random_samples(model,
         with torch.no_grad():
             outputs = model(img_input)
             # add sigmoid function 
-            outputs = torch.sigmoid(outputs)
+            if use_sigmoid : 
+             print('use sigmoid function on output model')
+             outputs = torch.sigmoid(outputs)
             # اگر بیش از دو کلاس داریم از argmax استفاده می‌کنیم
             if len(idx_to_class) > 2:
                 _, pred_idx = torch.max(outputs, 1)
