@@ -112,7 +112,7 @@ def test_step(model: torch.nn.Module,
               loss_fn: torch.nn.Module,
               show_plot_and_F1 = False,
               threshold = 0.5,
-              use_sigmoid = True):
+              use_sigmoid = False):
     # Put model in eval mode
     model.eval()
 

@@ -98,7 +98,7 @@ def plot_random_samples(model,
                          , titel = None,
                          dir_save = None,
                          threshold = 0.5,
-                         use_sigmoid = True):
+                         use_sigmoid = False):
     """
     انتخاب نمونه‌های تصادفی از دیتاست تست، پیش‌بینی با مدل، و نمایش آنها.
     اگر پیش‌بینی درست باشد، عنوان با رنگ آبی و در غیر این صورت با رنگ قرمز نمایش داده می‌شود.
