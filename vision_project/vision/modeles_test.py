@@ -38,9 +38,8 @@ def test_model(
         extension = '.pth',
         text_to_find = None,
         file_path = 'test_model/test_all_model.csv',
-        threshold = 0.5,
-        use_sigmoid = True
-         ):
+        threshold = 0.5
+          ):
     
 
     model_name= dic_model['model_name']
@@ -48,6 +47,7 @@ def test_model(
     input_shape =dic_model['input_shape']
     mean = dic_model['mean']
     std = dic_model['std']
+    use_sigmoid = dic_model['use_sigmoid']
 
     columns= ['model_name',
                 'dir_dataset',
@@ -169,14 +169,15 @@ def plot_random_image(
         num_samples = 20 , 
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
-        ,threshold = 0.5,
-        use_sigmoid = True):
+        ,threshold = 0.5
+        ):
 
     model_name= dic_model['model_name']
     model_stucher = dic_model['model_stucher']
     input_shape =dic_model['input_shape']
     mean = dic_model['mean']
     std = dic_model['std']
+    use_sigmoid = dic_model['use_sigmoid']
 
     if text_to_find is None:
         text_to_find = model_name

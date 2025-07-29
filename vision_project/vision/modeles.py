@@ -56,6 +56,7 @@ dic_model_2 = {
     'input_shape' : (224, 224),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
+    'use_sigmiod' : True # in test_step and train step for accurcy 
 }
 
 
@@ -66,4 +67,5 @@ dic_model_3 = {
     'input_shape' : (224, 224),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
+    'use_sigmiod' : True 
 }
