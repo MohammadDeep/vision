@@ -142,7 +142,7 @@ def plot_random_samples(model,
             outputs = model(img_input)
             # add sigmoid function 
             if use_sigmoid : 
-             print('use sigmoid function on output model')
+             #print('use sigmoid function on output model')
              outputs = torch.sigmoid(outputs)
             # اگر بیش از دو کلاس داریم از argmax استفاده می‌کنیم
             if len(idx_to_class) > 2:

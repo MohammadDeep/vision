@@ -55,7 +55,7 @@ def train_step(model: torch.nn.Module,
 
         # 2. Calculate  and accumulate loss
         loss = loss_fn(y_pred, y)
-        train_loss += loss.item()
+        train_loss += loss.imodeltem()
 
         # 3. Optimizer zero grad
         optimizer.zero_grad()
@@ -137,7 +137,7 @@ def test_step(model: torch.nn.Module,
             # 1. Forward pass
             test_pred_logits = model(X)
             if use_sigmoid : 
-                print('use sigmoid funciont on output model')
+                #print('use sigmoid funciont on output model')
                 # add sigmoid funtion in output
                 test_pred_logits = torch.sigmoid(test_pred_logits)
 
