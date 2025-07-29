@@ -34,11 +34,10 @@ class HumanPresenceSqueezeNet(nn.Module):
         self.features = base.features
         for p in list(self.features.parameters())[:freeze_features_up_to]:
             p.requires_grad = False
-        self.sigmiod = torch.sigmoid()
+
     def forward(self, x):
         x = self.features(x)      # (B,512,13,13)
         x = self.classifier(x)    # (B,1) پس از Flatten
-        x = self.sigmiod(x)
         return x
 
 

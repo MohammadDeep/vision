@@ -32,14 +32,14 @@ def find_files_by_content(folder_path, file_extension, start_name):
 def test_model(
         dic_model,
         list_dataset_dir = [dir_extended_all_folber_val],
-        model_loss_funciont =  nn.BCELoss(),
+        model_loss_funciont = nn.BCEWithLogitsLoss(),
         model_save_dir = dir_history_model_google_dirve ,
         BATCH_SIZE = 2 ** 7,
         extension = '.pth',
         text_to_find = None,
         file_path = 'test_model/test_all_model.csv',
         threshold = 0.5,
-        use_sigmoid = False
+        use_sigmoid = True
          ):
     
 
@@ -77,7 +77,7 @@ def test_model(
             print("⚠️ Columns note True ")
             df_result = pd.DataFrame(columns= columns)
     else:
-        print("Create new dataframe ")
+        print("⚠️ Create new dataframe ")
         df_result = pd.DataFrame(columns= columns)
 
     
@@ -170,7 +170,7 @@ def plot_random_image(
         figsize=(4, 4),
         show_images = 'all F' # 'all' or 'TT' or 'FF' or 'FT' or 'TF' or 'all T' or 'all F'
         ,threshold = 0.5,
-        use_sigmoid = False):
+        use_sigmoid = True):
 
     model_name= dic_model['model_name']
     model_stucher = dic_model['model_stucher']
