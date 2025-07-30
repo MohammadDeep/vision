@@ -48,8 +48,6 @@ class HumanPresenceSqueezeNet(nn.Module):
 
 
 
-
-
 dic_model_2 = {
     'model_name' : 'model_2',
     'model_stucher' : HumanPresenceSqueezeNet,
