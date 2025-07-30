@@ -206,7 +206,8 @@ def train(model: torch.nn.Module,
           epochs: int = 5,
           number_ep = 1000,
           use_sigmoid = True):
-
+    print(f'create dictory : {dir_history_model}/{model_name}')
+    os.makedirs(os.path.dirname(f"{dir_history_model}/{model_name}"), exist_ok=True)
     if model_name == None:
         model_name = type(model).__name__ 
     for epoch in range( epochs):
