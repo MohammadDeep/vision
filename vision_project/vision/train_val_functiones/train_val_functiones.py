@@ -224,7 +224,8 @@ def train(model: torch.nn.Module,
         checkpoint_path = f"{dir_history_model}/{model_name}/model_epoch_{epoch}.pth"
         # اگر پوشه‌ی پدر وجود نداشت، بسازش
         print(f'save modle : {checkpoint_path}')
-        os.makedirs(os.path.dirname(f"{dir_history_model}/{model_name}"), exist_ok=True)
+        modelse_save_dir = os.path.join(dir_history_model , model_name)
+        os.makedirs(modelse_save_dir, exist_ok=True)
         torch.save({
             'epoch': epoch,
             'model_state_dict': model.state_dict(),
