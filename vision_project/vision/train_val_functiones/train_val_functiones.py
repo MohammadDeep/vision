@@ -10,7 +10,7 @@ import pandas as pd
 import os
 from torchmetrics.classification import F1Score
 
-
+from vision.Config import dir_history_model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f'device  : {device}')
 
@@ -206,8 +206,6 @@ def train(model: torch.nn.Module,
           epochs: int = 5,
           number_ep = 1000,
           use_sigmoid = True):
-    print(f'create dictory : {dir_history_model}/{model_name}')
-    os.makedirs(os.path.dirname(f"{dir_history_model}/{model_name}"), exist_ok=True)
     if model_name == None:
         model_name = type(model).__name__ 
     for epoch in range( epochs):
@@ -222,9 +220,10 @@ def train(model: torch.nn.Module,
                               use_sigmoid = use_sigmoid
                              )
         # ذخیره Checkpoint
-        from vision.Config import dir_history_model
+        
         checkpoint_path = f"{dir_history_model}/{model_name}/model_epoch_{epoch}.pth"
         # اگر پوشه‌ی پدر وجود نداشت، بسازش
+        print(f'save modle : {checkpoint_path}')
         os.makedirs(os.path.dirname(f"{dir_history_model}/{model_name}"), exist_ok=True)
         torch.save({
             'epoch': epoch,
