@@ -214,6 +214,10 @@ def train(model: torch.nn.Module,
     
         checkpoint_dir = os.path.join(dir_history_model, model_name)
     latest_checkpoint_path = None
+
+
+    dir_save_results = f"{dir_history_model}/{model_name}/history_model.csv"
+    
     
     if os.path.isdir(checkpoint_dir):
         # پیدا کردن جدیدترین checkpoint بر اساس شماره epoch
@@ -243,6 +247,15 @@ def train(model: torch.nn.Module,
         print('-' * 50)
         print(f'Model load test loss { tlos}    test acc { tac}')
         print(f"Model and optimizer state loaded. Resuming from epoch {latest_epoch}")
+        print('-' * 50)
+        print('try to read history')
+        try : 
+             df_loaded = pd.read_csv(dir_save_results)
+             print(f'read history file')
+             # تبدیل به دیکشنری از لیست‌ها
+             results= df_loaded.to_dict(orient='list')
+        except:
+            print(f' cant read history ')
         print('-' * 50)
     else:
         print("No checkpoint found. Starting training from scratch.")
@@ -277,6 +290,9 @@ def train(model: torch.nn.Module,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
         }, checkpoint_path)
+        df = pd.DataFrame(results)
+        df.to_csv( dir_save_results, index=False, encoding='utf-8-sig')
+
 
 
 
