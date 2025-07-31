@@ -241,10 +241,10 @@ def train(model: torch.nn.Module,
                                 test_dataloader,
                                 loss_fn)
         print('-' * 50)
-        print(f'Model load test loss { tlos}    test acc { tac}')
+        print(f'Model load test loss : { tlos}  ,  test acc : { tac}')
         print(f"Model and optimizer state loaded. Resuming from epoch {latest_epoch}")
         print('-' * 50)
-        print('try to read history')
+        print('try to read history...')
         try : 
              df_loaded = pd.read_csv(f"{dir_history_model}/{model_name}/history_model_epoch_{latest_epoch}.csv")
              print(f'read history file')
@@ -262,7 +262,7 @@ def train(model: torch.nn.Module,
 
 
 
-
+    print('Start taining...')
     for epoch in range( latest_epoch + 1,latest_epoch + epochs + 1):
         print(f'epoch : {epoch}')
         results = train_step(model=model,
@@ -286,6 +286,7 @@ def train(model: torch.nn.Module,
             'model_state_dict': model.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
         }, checkpoint_path)
+        print(f'save hsietory :  {dir_history_model}/{model_name}/history_model_epoch_{epoch}.csv')
         df = pd.DataFrame(results)
         df.to_csv( f"{dir_history_model}/{model_name}/history_model_epoch_{epoch}.csv", index=False, encoding='utf-8-sig')
 
