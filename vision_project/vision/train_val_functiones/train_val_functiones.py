@@ -212,7 +212,7 @@ def train(model: torch.nn.Module,
     if model_name == None:
         model_name = type(model).__name__ 
     
-        checkpoint_dir = os.path.join(dir_history_model, model_name)
+    checkpoint_dir = os.path.join(dir_history_model, model_name)
     latest_checkpoint_path = None
     
     if os.path.isdir(checkpoint_dir):
