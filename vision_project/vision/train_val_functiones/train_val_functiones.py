@@ -214,7 +214,7 @@ def train(model: torch.nn.Module,
     
     checkpoint_dir = os.path.join(dir_history_model, model_name)
     latest_checkpoint_path = None
-    
+    print(f'checkpoint for model and history {checkpoint_dir}')
     if os.path.isdir(checkpoint_dir):
         # پیدا کردن جدیدترین checkpoint بر اساس شماره epoch
         checkpoint_files = [f for f in os.listdir(checkpoint_dir) if f.endswith('.pth')]
