@@ -9,6 +9,7 @@ from tqdm.auto import tqdm
 import pandas as pd
 import os
 from torchmetrics.classification import F1Score
+import re
 
 from vision.Config import dir_history_model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -205,10 +206,50 @@ def train(model: torch.nn.Module,
           results = None,
           epochs: int = 5,
           number_ep = 1000,
-          use_sigmoid = True):
+          use_sigmoid = True,
+          dir_history_model = dir_history_model,
+          latest_epoch = -1):
     if model_name == None:
         model_name = type(model).__name__ 
-    for epoch in range( epochs):
+    
+        checkpoint_dir = os.path.join(dir_history_model, model_name)
+    latest_checkpoint_path = None
+    
+    if os.path.isdir(checkpoint_dir):
+        # پیدا کردن جدیدترین checkpoint بر اساس شماره epoch
+        checkpoint_files = [f for f in os.listdir(checkpoint_dir) if f.endswith('.pth')]
+        
+        if latest_epoch == -1:
+            for f in checkpoint_files:
+                # استخراج شماره epoch از نام فایل با استفاده از regex
+                match = re.search(r'model_epoch_(\d+).pth', f)
+                if match:
+                    epoch_num = int(match.group(1))
+                    if epoch_num > latest_epoch:
+                        latest_epoch = epoch_num
+                        latest_checkpoint_path = os.path.join(checkpoint_dir, f)
+
+    if latest_checkpoint_path:
+        print(f"Resuming training from checkpoint: {latest_checkpoint_path}")
+        checkpoint = torch.load(latest_checkpoint_path)
+        
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        # epoch شروع را برابر با epoch ذخیره شده + 1 قرار می‌دهیم
+        start_epochs = checkpoint['epoch'] + 1 
+        print(f"Model and optimizer state loaded. Resuming from epoch {start_epochs}")
+    else:
+        print("No checkpoint found. Starting training from scratch.")
+        # اگر checkpoint وجود نداشت، start_epochs همان مقدار ورودی (معمولا 0) باقی می‌ماند
+    
+
+
+
+
+    if latest_epoch == -1 : 
+        latest_epoch = 0
+
+    for epoch in range( latest_epoch,latest_epoch + epochs):
         print(f'epoch : {epoch}')
         results = train_step(model=model,
                               dataloader=train_dataloader,
