@@ -228,26 +228,30 @@ def train(model: torch.nn.Module,
                     if epoch_num > latest_epoch:
                         latest_epoch = epoch_num
                         latest_checkpoint_path = os.path.join(checkpoint_dir, f)
-
+        else:
+            latest_checkpoint_path = f"{dir_history_model}/{model_name}/model_epoch_{latest_epoch}.pth"
     if latest_checkpoint_path:
-        print(f"Resuming training from checkpoint: {latest_checkpoint_path}")
-        checkpoint = torch.load(latest_checkpoint_path)
-        
-        model.load_state_dict(checkpoint['model_state_dict'])
-        #optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        # epoch شروع را برابر با epoch ذخیره شده + 1 قرار می‌دهیم
-        latest_epoch = checkpoint['epoch'] 
-        tlos , tac = test_step(model,
-                                test_dataloader,
-                                loss_fn)
-        print('-' * 50)
-        print(f'Model load test loss : { tlos}  ,  test acc : { tac}')
-        print(f"Model and optimizer state loaded. Resuming from epoch {latest_epoch}")
+        try:
+            print(f"Resuming training from checkpoint: {latest_checkpoint_path}")
+            checkpoint = torch.load(latest_checkpoint_path)
+            
+            model.load_state_dict(checkpoint['model_state_dict'])
+            #optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            # epoch شروع را برابر با epoch ذخیره شده + 1 قرار می‌دهیم
+            latest_epoch = checkpoint['epoch'] 
+            tlos , tac = test_step(model,
+                                    test_dataloader,
+                                    loss_fn)
+            print('-' * 50)
+            print(f'Model load test loss : { tlos}  ,  test acc : { tac}')
+            print(f"Model and optimizer state loaded. Resuming from epoch {latest_epoch}")
+        except: 
+            print(f'cant read model : {latest_checkpoint_path}')
         print('-' * 50)
         print('try to read history...')
         try : 
              df_loaded = pd.read_csv(f"{dir_history_model}/{model_name}/history_model_epoch_{latest_epoch}.csv")
-             print(f'read history file')
+             print(f'read history file : {dir_history_model}/{model_name}/history_model_epoch_{latest_epoch}.csv')
              # تبدیل به دیکشنری از لیست‌ها
              results= df_loaded.to_dict(orient='list')
         except:
