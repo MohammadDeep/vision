@@ -234,10 +234,16 @@ def train(model: torch.nn.Module,
         checkpoint = torch.load(latest_checkpoint_path)
         
         model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        #optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         # epoch شروع را برابر با epoch ذخیره شده + 1 قرار می‌دهیم
-        start_epochs = checkpoint['epoch'] + 1 
-        print(f"Model and optimizer state loaded. Resuming from epoch {start_epochs}")
+        latest_epoch = checkpoint['epoch'] 
+        tlos , tac = test_step(model,
+                                test_dataloader,
+                                loss_fn)
+        print('-' * 50)
+        print(f'Model load test loss { tlos}    test acc { tac}')
+        print(f"Model and optimizer state loaded. Resuming from epoch {latest_epoch}")
+        print('-' * 50)
     else:
         print("No checkpoint found. Starting training from scratch.")
         # اگر checkpoint وجود نداشت، start_epochs همان مقدار ورودی (معمولا 0) باقی می‌ماند
@@ -246,10 +252,9 @@ def train(model: torch.nn.Module,
 
 
 
-    if latest_epoch == -1 : 
-        latest_epoch = 0
 
-    for epoch in range( latest_epoch,latest_epoch + epochs):
+
+    for epoch in range( latest_epoch + 1,latest_epoch + epochs + 1):
         print(f'epoch : {epoch}')
         results = train_step(model=model,
                               dataloader=train_dataloader,
