@@ -193,7 +193,7 @@ model_stucher = dic_model_3['model_stucher']
 input_shape =dic_model_3['input_shape']
 mean = dic_model_3['mean']
 std = dic_model_3['std']
-BATCH_SIZE = 2 **7
+BATCH_SIZE = 2 ** 8
 '''
 ==========================================================================
                                     path 2
@@ -201,6 +201,7 @@ BATCH_SIZE = 2 **7
 '''
 print('-' * 50)
 print('transformes data and ceate dataset and datalober')
+num_workers = input('enter num_workers : ')
 # 4. آماده‌سازی داده‌ها
 transform = transforms.Compose([
     transforms.RandomAffine(degrees=30, translate=(0.1, 0.1), scale=(0.8, 1.2), shear=10),
@@ -220,25 +221,30 @@ transform_val = transforms.Compose([
 
 # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
 dataset_val = datasets.ImageFolder(root=dir_dataset_orgnal_val, transform=transform_val)
-dataloader_val = DataLoader(dataset_val, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
+dataloader_val = DataLoader(
+    dataset_val, batch_size=BATCH_SIZE, shuffle=True,
+      num_workers=num_workers, pin_memory=True)
 
 print(dataset_val.class_to_idx)
 
 # e.g. {'negative': 0, 'positive': 1}
 # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
 dataset_train = datasets.ImageFolder(root=dir_dataset_orgnal, transform=transform)
-dataloader_train = DataLoader(dataset_train, batch_size=BATCH_SIZE, shuffle=True, num_workers=2, pin_memory=True)
+dataloader_train = DataLoader(dataset_train, batch_size=BATCH_SIZE, 
+                              shuffle=True, num_workers=num_workers
+                              , pin_memory=True)
 
 print(dataset_train.class_to_idx)
 
 
 print('-' * 50)
+lr = input('enter lr (.001):')
   # 3. تعریف تابع از دست دادن (Loss) و بهینه‌ساز
 # استفاده از BCEWithLogitsLoss که برای خروجی باینری سیگموید استفاده می‌شود
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 pos_weight = torch.tensor([1]).to(device)
 loss_fn= nn.BCEWithLogitsLoss(pos_weight=pos_weight)  # این تابع از سیگموید به‌طور داخلی استفاده می‌کند
-optimizer= optim.Adam(model.parameters(), lr=0.001)
+optimizer= optim.Adam(model.parameters(), lr=lr)
 
 from vision.train_val_functiones.train_val_functiones import train
 from vision.Config import dir_history_model
