@@ -8,6 +8,25 @@ import torch
 import torch.nn as nn
 from torchsummary import summary
 
+
+train_data =  getDataFoalberCoco(
+        image_dir  ,
+        ann_file,
+        list_calsses,
+        dir_dataset_orgnal)
+
+train_data.create_dataset_folber()
+
+
+val_data =  getDataFoalberCoco(
+        image_val_dir  ,
+        ann_file_val,
+        list_calsses,
+        dir_dataset_orgnal_val)
+
+val_data.create_dataset_folber()
+
+
 print('-' * 50 )
 print('Createing layer...')
 class InceptionModule(nn.Module):
