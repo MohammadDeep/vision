@@ -220,7 +220,7 @@ BATCH_SIZE = 2 ** 8
 '''
 print('-' * 50)
 print('transformes data and ceate dataset and datalober')
-num_workers = input('enter num_workers : ')
+num_workers = int(input('enter num_workers : '))
 # 4. آماده‌سازی داده‌ها
 transform = transforms.Compose([
     transforms.RandomAffine(degrees=30, translate=(0.1, 0.1), scale=(0.8, 1.2), shear=10),
@@ -257,7 +257,7 @@ print(dataset_train.class_to_idx)
 
 
 print('-' * 50)
-lr = input('enter lr (.001):')
+lr =float( input('enter lr (.001):'))
   # 3. تعریف تابع از دست دادن (Loss) و بهینه‌ساز
 # استفاده از BCEWithLogitsLoss که برای خروجی باینری سیگموید استفاده می‌شود
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
