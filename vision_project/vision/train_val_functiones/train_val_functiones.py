@@ -208,7 +208,8 @@ def train(model: torch.nn.Module,
           number_ep = 1000,
           use_sigmoid = True,
           dir_history_model = dir_history_model,
-          latest_epoch = -1):
+          latest_epoch = -1,
+          strict = True):
     if model_name == None:
         model_name = type(model).__name__ 
     
@@ -235,7 +236,7 @@ def train(model: torch.nn.Module,
             print(f"Resuming training from checkpoint: {latest_checkpoint_path}")
             checkpoint = torch.load(latest_checkpoint_path)
             
-            model.load_state_dict(checkpoint['model_state_dict'])
+            model.load_state_dict(checkpoint['model_state_dict'], strict = strict)
             #optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
             # epoch شروع را برابر با epoch ذخیره شده + 1 قرار می‌دهیم
             latest_epoch = checkpoint['epoch'] 

@@ -30,7 +30,15 @@ val_data.create_dataset_folber()
 print('-' * 50 )
 print('Createing layer...')
 class InceptionModule(nn.Module):
-    def __init__(self, in_channels, out_1_3,out_1_5 ,out_1_7, out_2_3 , out_2_5 ,out_2_7):
+    def __init__(self, in_channels
+                 , out_1_3,
+                 out_1_5 ,
+                 out_1_7
+                 , out_2_3 
+                 , out_2_5 
+                 ,out_2_7
+                 ,p_dropout = 0.5
+                 ):
         super(InceptionModule, self).__init__()
         out = (out_2_3+ out_2_5 +out_2_7)
         # شاخه اول: کانولوشن 1x1
@@ -71,7 +79,7 @@ class InceptionModule(nn.Module):
         )
 
         self.relu = nn.ReLU6(inplace= True)
-
+        self.dropout = nn.Dropout2d(p = p_dropout)
     def forward(self, x):
         # محاسبه خروجی هر شاخه
         out1 = self.branch1(x)
@@ -80,6 +88,7 @@ class InceptionModule(nn.Module):
         out4 = self.branch4(x)
         out = torch.cat([out4], 1) + torch.cat([out1, out2, out3], 1)
         out = self.relu(out)
+        out = self.dropout(out)
         # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
         return out
 
@@ -128,6 +137,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 16
             ,out_1_7 = 2
             ,out_2_7 = 16
+            ,p_dropout = 0.5
         )
         self.layer_2 = InceptionModule(
             in_channels = 16 * 3
@@ -136,7 +146,8 @@ class Model_4(nn.Module):
             ,out_1_5 = 16
             ,out_2_5 = 32
             ,out_1_7 = 16
-            ,out_2_7 = 32
+            ,out_2_7 = 32,
+            p_dropout = .40
         )
         self.layer_3 = InceptionModule(
             in_channels = 32 * 3
@@ -145,7 +156,8 @@ class Model_4(nn.Module):
             ,out_1_5 = 32
             ,out_2_5 = 64
             ,out_1_7 = 16
-            ,out_2_7 = 32
+            ,out_2_7 = 32,
+            p_dropout = .3
         )
 
         self.layer_4 = InceptionModule(
@@ -155,7 +167,8 @@ class Model_4(nn.Module):
             ,out_1_5 = 32
             ,out_2_5 = 128
             ,out_1_7 = 16
-            ,out_2_7 = 32
+            ,out_2_7 = 32,
+            p_dropout = .20
         )
 
         self.layer_5 = InceptionModule(
@@ -165,7 +178,8 @@ class Model_4(nn.Module):
             ,out_1_5 = 64
             ,out_2_5 = 256
             ,out_1_7 = 16
-            ,out_2_7 = 32
+            ,out_2_7 = 32,
+            p_dropout = .10
         )
         self.layer_6 = nn.Sequential(
             nn.AvgPool2d(7),
@@ -283,4 +297,5 @@ history = train(model,
                 number_ep = len(dataloader_train),
                 use_sigmoid = True,
                 dir_history_model = dir_history_model,
-                latest_epoch = -1)
+                latest_epoch = -1,
+                strict = False)
