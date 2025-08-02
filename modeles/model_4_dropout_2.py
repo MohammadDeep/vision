@@ -8,6 +8,9 @@ import torch
 import torch.nn as nn
 from torchsummary import summary
 
+
+
+
 '''
 ======================================================================
                              pyper parnmaetres
@@ -15,8 +18,6 @@ from torchsummary import summary
 '''
 
 num_workers = 16 
-
-
 
 
 train_data =  getDataFoalberCoco(
@@ -147,7 +148,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 16
             ,out_1_7 = 2
             ,out_2_7 = 16
-            ,p_dropout = 0
+            ,p_dropout = 0.3
         )
         self.layer_2 = InceptionModule(
             in_channels = 16 * 3
@@ -157,7 +158,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 32
             ,out_1_7 = 16
             ,out_2_7 = 32,
-            p_dropout = 0
+            p_dropout = .2
         )
         self.layer_3 = InceptionModule(
             in_channels = 32 * 3
@@ -167,7 +168,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 64
             ,out_1_7 = 16
             ,out_2_7 = 32,
-            p_dropout = 0
+            p_dropout = .15
         )
 
         self.layer_4 = InceptionModule(
@@ -178,7 +179,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 128
             ,out_1_7 = 16
             ,out_2_7 = 32,
-            p_dropout = 0
+            p_dropout = .1
         )
 
         self.layer_5 = InceptionModule(
@@ -189,7 +190,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 256
             ,out_1_7 = 16
             ,out_2_7 = 32,
-            p_dropout = .10
+            p_dropout = .1
         )
         self.layer_6 = nn.Sequential(
             nn.AvgPool2d(7),
@@ -300,7 +301,7 @@ history = train(model,
                 train_dataloader = dataloader_train,
                 test_dataloader = dataloader_val,
                 optimizer = optimizer,
-                model_name = 'Model_4',
+                model_name = 'Model_4_add_dropout_2',
                 loss_fn = loss_fn,
                 results = None,
                 epochs = n_epoch,
