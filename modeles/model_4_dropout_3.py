@@ -158,7 +158,7 @@ class Model_4(nn.Module):
             ,out_2_5 = 32
             ,out_1_7 = 16
             ,out_2_7 = 32,
-            p_dropout = .2
+            p_dropout = .1
         )
         self.layer_3 = InceptionModule(
             in_channels = 32 * 3
