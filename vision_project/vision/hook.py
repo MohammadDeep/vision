@@ -10,12 +10,19 @@ def analis_model(dic_model,
                  dir_pth_file,
                  labels,
                  input_tensor,
-                 loss_nf = nn.CrossEntropyLoss()
+                 model,
+                 loss_nf = nn.CrossEntropyLoss(),
+                 load = True
+                 
+                 
                  ):
     
     model_class = dic_model['model_stucher']
+    if load :
+        model =  load_model(model_class, dir_pth_file)
+    else :
+        model = model
 
-    model =  load_model(model_class, dir_pth_file)
     # دیکشنری برای نگهداری خروجی‌ها (activations) و گرادیان‌ها
     activations = {}
     gradients = {}
