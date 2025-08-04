@@ -19,8 +19,10 @@ def analis_model(dic_model,
     
     model_class = dic_model['model_stucher']
     if load :
+        print(f'load moder dircotyr : {dir_pth_file}')
         model =  load_model(model_class, dir_pth_file)
     else :
+        print('not load model')
         model = model
 
     # دیکشنری برای نگهداری خروجی‌ها (activations) و گرادیان‌ها
