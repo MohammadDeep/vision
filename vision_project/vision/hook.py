@@ -8,8 +8,9 @@ from vision.train_val_functiones.train_val_functiones import load_model
 
 def analis_model(dic_model,
                  dir_pth_file,
-                 calsse_n = 1,
-                 input_size = 224
+                 labels,
+                 input_tensor,
+                 loss_nf = nn.CrossEntropyLoss()
                  ):
     
     model_class = dic_model['model_stucher']
@@ -40,10 +41,10 @@ def analis_model(dic_model,
             layer.register_backward_hook(save_gradient(name))
 
     # ----------------- 3. اجرای یک پاس رو به جلو و پس‌رو -----------------
-    input_tensor = torch.randn(64, 3, input_size, input_size)
-    labels = torch.randint(0, calsse_n, (64,))
+    #input_tensor = torch.randn(64, 3, input_size, input_size)
+    #labels = torch.randint(0, calsse_n, (64,))
     output = model(input_tensor)
-    loss = nn.CrossEntropyLoss()(output, labels)
+    loss = loss_nf(output, labels)
     loss.backward()
 
     # ----------------- 4. پلات کردن خروجی‌ها و گرادیان‌ها -----------------
