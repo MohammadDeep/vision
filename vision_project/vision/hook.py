@@ -44,7 +44,8 @@ def analis_model(dic_model,
     #input_tensor = torch.randn(64, 3, input_size, input_size)
     #labels = torch.randint(0, calsse_n, (64,))
     output = model(input_tensor)
-    loss = loss_nf(output, labels)
+    adjusted_labels = labels.float().unsqueeze(1)
+    loss = loss_nf(output, adjusted_labels)
     loss.backward()
 
     # ----------------- 4. پلات کردن خروجی‌ها و گرادیان‌ها -----------------
