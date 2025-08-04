@@ -40,7 +40,7 @@ def analis_model(dic_model,
             layer.register_backward_hook(save_gradient(name))
 
     # ----------------- 3. اجرای یک پاس رو به جلو و پس‌رو -----------------
-    input_tensor = torch.randn(64, 13, input_size, input_size)
+    input_tensor = torch.randn(64, 3, input_size, input_size)
     labels = torch.randint(0, calsse_n, (64,))
     output = model(input_tensor)
     loss = nn.CrossEntropyLoss()(output, labels)
