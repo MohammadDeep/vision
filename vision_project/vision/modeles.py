@@ -212,7 +212,7 @@ dic_model_3 = {
 }
 
 
-dic_model_3 = {
+dic_model_4 = {
     'model_name' : 'Model_4',
     'model_stucher' : Model_4,
     'input_shape' : (224, 224),
