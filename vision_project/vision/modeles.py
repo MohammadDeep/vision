@@ -47,6 +47,149 @@ class HumanPresenceSqueezeNet(nn.Module):
 
 
 
+class InceptionModule(nn.Module):
+    def __init__(self, in_channels
+                 , out_1_3,
+                 out_1_5 ,
+                 out_1_7
+                 , out_2_3 
+                 , out_2_5 
+                 ,out_2_7
+                 ,p_dropout = 0.5
+                 ):
+        super(InceptionModule, self).__init__()
+        out = (out_2_3+ out_2_5 +out_2_7)
+        # شاخه اول: کانولوشن 1x1
+        self.branch1 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_3, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_3),
+            nn.ReLU6(inplace= True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(out_1_3 ,out_2_3, kernel_size = 3, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_3),
+
+        )
+
+        # شاخه دوم: کانولوشن 1x1 و سپس 3x3
+        self.branch2 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_5, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_5),
+            nn.ReLU6(inplace= True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(out_1_5 ,out_2_5, kernel_size = 5, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_5),
+
+        )
+
+        # شاخه سوم: کانولوشن 1x1 و سپس 5x5
+        self.branch3 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_7, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_7),
+            nn.ReLU6(inplace= True),
+            nn.MaxPool2d(2),
+            nn.Conv2d(out_1_7 ,out_2_7, kernel_size = 7, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_7),
+
+        )
+
+        self.branch4 = nn.Sequential(
+            nn.Conv2d(in_channels, out, kernel_size=1,stride=2, bias= False)
+        )
+
+        self.relu = nn.ReLU6(inplace= True)
+        self.dropout = nn.Dropout2d(p = p_dropout)
+    def forward(self, x):
+        # محاسبه خروجی هر شاخه
+        out1 = self.branch1(x)
+        out2 = self.branch2(x)
+        out3 = self.branch3(x)
+        out4 = self.branch4(x)
+        out = torch.cat([out4], 1) + torch.cat([out1, out2, out3], 1)
+        out = self.relu(out)
+        out = self.dropout(out)
+        # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
+        return out
+
+class Model_4(nn.Module):
+    def __init__(self,classes_number = 1,  in_channels = 3):
+        super(Model_4, self).__init__()
+
+        self.layer_1 = InceptionModule(
+            in_channels = in_channels
+            ,out_1_3 = 2
+            ,out_2_3 = 16
+            ,out_1_5 = 2
+            ,out_2_5 = 16
+            ,out_1_7 = 2
+            ,out_2_7 = 16
+            ,p_dropout = 0
+        )
+        self.layer_2 = InceptionModule(
+            in_channels = 16 * 3
+            ,out_1_3 = 16
+            ,out_2_3 = 32
+            ,out_1_5 = 16
+            ,out_2_5 = 32
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_3 = InceptionModule(
+            in_channels = 32 * 3
+            ,out_1_3 = 32
+            ,out_2_3 = 64
+            ,out_1_5 = 32
+            ,out_2_5 = 64
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+
+        self.layer_4 = InceptionModule(
+            in_channels = 32  + 64 * 2
+            ,out_1_3 = 32
+            ,out_2_3 = 128
+            ,out_1_5 = 32
+            ,out_2_5 = 128
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+
+        self.layer_5 = InceptionModule(
+            in_channels = 32  + 128 * 2
+            ,out_1_3 = 64
+            ,out_2_3 = 256
+            ,out_1_5 = 64
+            ,out_2_5 = 256
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = .10
+        )
+        self.layer_6 = nn.Sequential(
+            nn.AvgPool2d(7),
+            nn.Flatten(),
+            nn.Linear(256* 2 + 32, classes_number)
+        )
+
+
+    def forward(self, x):
+        # محاسبه خروجی هر شاخه
+        x = self.layer_1(x)
+        x = self.layer_2(x)
+        x = self.layer_3(x)
+        x = self.layer_4(x)
+        x = self.layer_5(x)
+        x = self.layer_6(x)
+        # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
+        return x
+
+
+
+
+
+
+
 
 dic_model_2 = {
     'model_name' : 'model_2',
@@ -62,6 +205,16 @@ dic_model_2 = {
 dic_model_3 = {
     'model_name' : 'model_2',
     'model_stucher' : HumanPresenceSqueezeNet,
+    'input_shape' : (224, 224),
+    'mean' : [0.485, 0.456, 0.406],
+    'std' :[0.229, 0.224, 0.225],
+    'use_sigmoid' : True 
+}
+
+
+dic_model_3 = {
+    'model_name' : 'Model_4',
+    'model_stucher' : Model_4,
     'input_shape' : (224, 224),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
