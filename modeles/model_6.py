@@ -27,7 +27,7 @@ model = Model_6()
 model.to(device)
 print('-' * 50)
 print('summary model :')
-summary(model, (3, 224, 224))
+summary(model, (3, 256, 256))
 
 
 
