@@ -111,6 +111,14 @@ from vision.Config import dir_history_model
 n_epoch = 50
 print(f'start training model epoches {n_epoch}')
 
+from vision.train_val_functiones.train_val_functiones import test_step
+lo, ac = test_step(model,
+              dataloader_val,
+              loss_fn,
+              show_plot_and_F1 = False,
+              threshold = 0.5,
+              use_sigmoid = True)
+print(f'loss {lo} , accuracy {ac}')
 history = train(model,
                 train_dataloader = dataloader_train,
                 test_dataloader = dataloader_val,
