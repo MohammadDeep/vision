@@ -118,6 +118,7 @@ lo, ac = test_step(model,
               show_plot_and_F1 = False,
               threshold = 0.5,
               use_sigmoid = True)
+print('* ' * 50)
 print(f'loss {lo} , accuracy {ac}')
 history = train(model,
                 train_dataloader = dataloader_train,
