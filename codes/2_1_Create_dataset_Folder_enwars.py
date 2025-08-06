@@ -55,8 +55,7 @@ val_train = input('enter val data or train data(V/T):')
 dest_dir_dataset = input('enter dir dataset for enwars :')
 from vision.Config import list_calsses
 list_class_folder = ['calss_other', f'class_id{list_calsses[0]}']
-other_class_dir = os.path.join(dest_dir_dataset, list_class_folder[0])
-class_dir = os.path.join(dest_dir_dataset, list_class_folder[1])
+
 if val_train == 'V':
     from vision.Config import dir_non_core_class_val,dir_core_class_val,dir_box_image_val,dir_bake_image_Not_val,dir_cut_image_val
     for dir in list_class_folder:
@@ -64,8 +63,8 @@ if val_train == 'V':
         move_files_from_directories(dest_dir = dir_box_image_val,search_string='cut_area', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_bake_image_Not_val,search_string='bake_idx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_cut_image_val,search_string='cut_indx_', source_dirs=dest_dir)
-    move_files_from_directories(dest_dir = dir_non_core_class_val,search_string='.', source_dirs=other_class_dir)
-    move_files_from_directories(dest_dir = dir_core_class_val,search_string='.', source_dirs=class_dir)
+        move_files_from_directories(dest_dir = dir_non_core_class_val,search_string='non_core_class', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_core_class_val,search_string='core_class', source_dirs=dest_dir)
 elif val_train == 'T':
     from vision.Config import dir_non_core_class,dir_core_class,dir_box_image,dir_bake_image_Not,dir_cut_image
     for dir in list_class_folder:
@@ -73,5 +72,5 @@ elif val_train == 'T':
         move_files_from_directories(dest_dir = dir_box_image,search_string='cut_area', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_bake_image_Not,search_string='bake_idx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_cut_image,search_string='cut_indx_', source_dirs=dest_dir)
-    move_files_from_directories(dest_dir = dir_non_core_class,search_string= '.', source_dirs=other_class_dir)
-    move_files_from_directories(dest_dir = dir_core_class,search_string  = '.', source_dirs=class_dir)
+        move_files_from_directories(dest_dir = dir_non_core_class,search_string='non_core_class', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_core_class,search_string='core_class', source_dirs=dest_dir)
