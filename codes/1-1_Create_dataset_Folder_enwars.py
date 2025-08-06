@@ -36,6 +36,7 @@ def move_files_from_directories(source_dirs,search_string, dest_dir):
   # مرحله ۱: بررسی و ایجاد دایرکتوری مقصد در صورت عدم وجود
   if not os.path.exists(dest_dir):
     try:
+      print('try to create dirctory .....')
       os.makedirs(dest_dir)
       print(f"دایرکتوری مقصد ایجاد شد: '{dest_dir}'")
     except OSError as e:
