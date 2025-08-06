@@ -44,7 +44,7 @@ def move_files_from_directories(source_dirs,search_string, dest_dir):
       return # در صورت بروز خطا، از تابع خارج شو
   list_name_source_dirs = find_files_and_create_substring(source_dirs , search_string= search_string)
   # مرحله ۲: پیمایش در لیست دایرکتوری‌های مبدأ
-  for src_dir in tqdm(list_name_source_dirs):
+  for src_dir in list_name_source_dirs:
     source_file_path = os.path.join(source_dirs , src_dir)
     try:
         shutil.move(source_file_path, dest_dir)
