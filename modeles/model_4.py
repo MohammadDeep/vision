@@ -17,7 +17,11 @@ from torchsummary import summary
 num_workers = 16 
 
 
+<<<<<<< HEAD
 
+=======
+'''
+>>>>>>> main
 
 train_data =  getDataFoalberCoco(
         image_dir  ,
@@ -34,7 +38,11 @@ val_data =  getDataFoalberCoco(
         list_calsses,
         dir_dataset_orgnal_val)
 
+<<<<<<< HEAD
 val_data.create_dataset_folber()
+=======
+val_data.create_dataset_folber()'''
+>>>>>>> main
 
 
 print('-' * 50 )
@@ -272,7 +280,17 @@ print(dataset_val.class_to_idx)
 
 # e.g. {'negative': 0, 'positive': 1}
 # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
+<<<<<<< HEAD
 dataset_train = datasets.ImageFolder(root=dir_dataset_orgnal, transform=transform)
+=======
+from vision.Config import dir_extended_all_folber
+# تا تکرار ۲۰۵ با دیتاست ارجینال رفتیم
+#dataset_train = datasets.ImageFolder(root=dir_dataset_orgnal, transform=transform)
+
+dataset_train = datasets.ImageFolder(root=dir_extended_all_folber, transform=transform)
+
+
+>>>>>>> main
 dataloader_train = DataLoader(dataset_train, batch_size=BATCH_SIZE, 
                               shuffle=True, num_workers=num_workers
                               , pin_memory=True)

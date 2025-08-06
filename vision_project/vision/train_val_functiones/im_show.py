@@ -305,7 +305,10 @@ def move_or_copy_images_to_folder(source_folder, destination_folder,
   # پیمایش در فایل‌های پوشه مبدأ
   for filename in tqdm(os.listdir(str(source_folder))):
     source_path = os.path.join(source_folder, filename)
-    new_filename = f'{pasvand}_{filename}'
+    if  pasvand in filename:
+      new_filename = filename
+    else:
+       new_filename = f'{pasvand}_{filename}'
     destination_path = os.path.join(destination_folder, new_filename )
 
     # بررسی کنید که آیا فایل یک فایل است و پسوند آن در لیست پسوندهای تصویر است
