@@ -18,7 +18,7 @@ from torchsummary import summary
 ======================================================================
 '''
 
-num_workers = 16 
+num_workers = 18 
 
 print('-' * 50 )
 print('Load model 6 ...')
