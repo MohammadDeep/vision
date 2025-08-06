@@ -53,6 +53,7 @@ def move_files_from_directories(source_dirs,search_string, dest_dir):
         print(f"خطا در انتقال فایل '{source_file_path}': {e}")
 val_train = input('enter val data or train data(V/T):')
 dest_dir_dataset = input('enter dir dataset for enwars :')
+tree_directory_images(dest_dir_dataset)
 from vision.Config import list_calsses
 list_class_folder = ['calss_other', f'class_id{list_calsses[0]}']
 
@@ -76,3 +77,5 @@ elif val_train == 'T':
         move_files_from_directories(dest_dir = dir_non_core_class,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class,search_string='core_class', source_dirs=dest_dir)
         tree_directory_images(dest_dir)
+
+tree_directory_images(dest_dir_dataset)
