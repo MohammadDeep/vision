@@ -272,7 +272,13 @@ print(dataset_val.class_to_idx)
 
 # e.g. {'negative': 0, 'positive': 1}
 # ImageFolder دو کلاس را 0 و 1 نگاشت می‌کند
-dataset_train = datasets.ImageFolder(root=dir_dataset_orgnal, transform=transform)
+from vision.Config import dir_extended_all_folber
+# تا تکرار ۲۰۵ با دیتاست ارجینال رفتیم
+#dataset_train = datasets.ImageFolder(root=dir_dataset_orgnal, transform=transform)
+
+dataset_train = datasets.ImageFolder(root=dir_extended_all_folber, transform=transform)
+
+
 dataloader_train = DataLoader(dataset_train, batch_size=BATCH_SIZE, 
                               shuffle=True, num_workers=num_workers
                               , pin_memory=True)
