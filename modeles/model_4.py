@@ -17,7 +17,7 @@ from torchsummary import summary
 num_workers = 16 
 
 
-
+'''
 
 train_data =  getDataFoalberCoco(
         image_dir  ,
@@ -34,7 +34,7 @@ val_data =  getDataFoalberCoco(
         list_calsses,
         dir_dataset_orgnal_val)
 
-val_data.create_dataset_folber()
+val_data.create_dataset_folber()'''
 
 
 print('-' * 50 )
