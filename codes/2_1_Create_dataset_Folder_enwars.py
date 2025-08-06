@@ -56,26 +56,31 @@ dest_dir_dataset = input('enter dir dataset for enwars :')
 tree_directory_images(dest_dir_dataset)
 from vision.Config import list_calsses
 list_class_folder = ['calss_other', f'class_id{list_calsses[0]}']
-
+print('-' * 50)
 if val_train == 'V':
-    from vision.Config import dir_non_core_class_val,dir_core_class_val,dir_box_image_val,dir_bake_image_Not_val,dir_cut_image_val
+    from vision.Config import dir_dataset_folder_val,dir_non_core_class_val,dir_core_class_val,dir_box_image_val,dir_bake_image_Not_val,dir_cut_image_val
     for dir in list_class_folder:
         dest_dir = os.path.join( dest_dir_dataset, dir)
+        tree_directory_images(dir_dataset_folder_val)
         move_files_from_directories(dest_dir = dir_box_image_val,search_string='cut_area', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_bake_image_Not_val,search_string='bake_idx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_cut_image_val,search_string='cut_indx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class_val,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class_val,search_string='core_class', source_dirs=dest_dir)
-        tree_directory_images(dest_dir)
+        print('-' * 50)
+        tree_directory_images(dir_dataset_folder_val)
 elif val_train == 'T':
-    from vision.Config import dir_non_core_class,dir_core_class,dir_box_image,dir_bake_image_Not,dir_cut_image
+    from vision.Config import dir_dataset_folder,dir_non_core_class,dir_core_class,dir_box_image,dir_bake_image_Not,dir_cut_image
     for dir in list_class_folder:
         dest_dir = os.path.join( dest_dir_dataset, dir)
+        tree_directory_images(dir_dataset_folder)
         move_files_from_directories(dest_dir = dir_box_image,search_string='cut_area', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_bake_image_Not,search_string='bake_idx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_cut_image,search_string='cut_indx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class,search_string='core_class', source_dirs=dest_dir)
-        tree_directory_images(dest_dir)
+        print('-' * 50)
+        tree_directory_images(dir_dataset_folder)
 
-tree_directory_images(dest_dir_dataset)
+
+
