@@ -288,7 +288,7 @@ class Model_6(nn.Module):
 
 class Model_7(nn.Module):
     def __init__(self,classes_number = 1,  in_channels = 3):
-        super(Model_4, self).__init__()
+        super(Model_7, self).__init__()
 
         self.layer_1 = InceptionModule(
             in_channels = in_channels
