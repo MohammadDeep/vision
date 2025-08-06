@@ -186,6 +186,105 @@ class Model_4(nn.Module):
 
 
 
+class Model_6(nn.Module):
+    def __init__(self,classes_number = 1,  in_channels = 3):
+        super(Model_6, self).__init__()
+
+        self.layer_1 = InceptionModule(
+            in_channels = in_channels
+            ,out_1_3 = 2
+            ,out_2_3 = 16
+            ,out_1_5 = 2
+            ,out_2_5 = 16
+            ,out_1_7 = 2
+            ,out_2_7 = 16
+            ,p_dropout = 0
+        )
+        self.layer_2 = InceptionModule(
+            in_channels = 16 * 3
+            ,out_1_3 = 16
+            ,out_2_3 = 32
+            ,out_1_5 = 16
+            ,out_2_5 = 32
+            ,out_1_7 = 16
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+        self.layer_3 = InceptionModule(
+            in_channels = 32 * 2 + 16
+            ,out_1_3 = 32
+            ,out_2_3 = 64
+            ,out_1_5 = 32
+            ,out_2_5 = 64
+            ,out_1_7 = 16
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+
+        self.layer_4 = InceptionModule(
+            in_channels = 16  + 64 * 2
+            ,out_1_3 = 32
+            ,out_2_3 = 64
+            ,out_1_5 = 32
+            ,out_2_5 = 64
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+
+        self.layer_5 = InceptionModule(
+            in_channels = 32  + 64 * 2
+            ,out_1_3 = 64
+            ,out_2_3 = 64
+            ,out_1_5 = 64
+            ,out_2_5 = 64
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_6 = InceptionModule(
+            in_channels =64* 2 + 32
+            ,out_1_3 = 64
+            ,out_2_3 = 80
+            ,out_1_5 = 64
+            ,out_2_5 = 80
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_7 = InceptionModule(
+            in_channels =80 * 2 + 32
+            ,out_1_3 = 64
+            ,out_2_3 = 128
+            ,out_1_5 = 64
+            ,out_2_5 = 128
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+
+        self.layer_8 = nn.Sequential(
+            nn.AvgPool2d(2),
+            nn.Flatten(),
+            nn.Linear(128* 2 + 32, classes_number)
+        )
+
+
+    def forward(self, x):
+        # محاسبه خروجی هر شاخه
+        x = self.layer_1(x)
+        x = self.layer_2(x)
+        x = self.layer_3(x)
+        x = self.layer_4(x)
+        x = self.layer_5(x)
+        x = self.layer_6(x)
+        x = self.layer_7(x)
+        x = self.layer_8(x)
+
+        # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
+        return x
+
+
 
 
 
@@ -216,6 +315,17 @@ dic_model_4 = {
     'model_name' : 'Model_4',
     'model_stucher' : Model_4,
     'input_shape' : (224, 224),
+    'mean' : [0.485, 0.456, 0.406],
+    'std' :[0.229, 0.224, 0.225],
+    'use_sigmoid' : True 
+}
+
+
+
+dic_model_6 = {
+    'model_name': 'Model_6',
+    'model_stucher': Model_6,
+    'input_shape' : (256, 256),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
     'use_sigmoid' : True 
