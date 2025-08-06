@@ -186,11 +186,6 @@ class Model_4(nn.Module):
 
 
 
-<<<<<<< HEAD
-
-
-
-=======
 class Model_6(nn.Module):
     def __init__(self,classes_number = 1,  in_channels = 3):
         super(Model_6, self).__init__()
@@ -412,7 +407,7 @@ class Model_7(nn.Module):
         return x
 
 
->>>>>>> main
+
 
 
 dic_model_2 = {
@@ -443,8 +438,7 @@ dic_model_4 = {
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
     'use_sigmoid' : True 
-<<<<<<< HEAD
-=======
+
 }
 
 
@@ -466,5 +460,5 @@ dic_model_7 = {
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
     'use_sigmoid' : True 
->>>>>>> main
+
 }
