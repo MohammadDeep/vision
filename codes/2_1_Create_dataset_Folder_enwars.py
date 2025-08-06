@@ -62,9 +62,9 @@ if val_train == 'V':
     for dir in list_class_folder:
         dest_dir = os.path.join( dest_dir_dataset, dir)
         #tree_directory_images(dir_dataset_folder_val)
-        move_files_from_directories(dest_dir = dir_box_image_val,search_string='cut_area_', source_dirs=dest_dir)
-        move_files_from_directories(dest_dir = dir_bake_image_Not_val,search_string='bake_idx_', source_dirs=dest_dir)
-        move_files_from_directories(dest_dir = dir_cut_image_val,search_string='cut_indx_', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_box_image_val,search_string='box_image', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_bake_image_Not_val,search_string='bake_image_Not', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_cut_image_val,search_string='cut_image', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class_val,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class_val,search_string='core_class', source_dirs=dest_dir)
         print('-' * 50)
@@ -74,13 +74,10 @@ elif val_train == 'T':
     for dir in list_class_folder:
         dest_dir = os.path.join( dest_dir_dataset, dir)
         #tree_directory_images(dir_dataset_folder)
-        move_files_from_directories(dest_dir = dir_box_image,search_string='cut_area_', source_dirs=dest_dir)
-        move_files_from_directories(dest_dir = dir_bake_image_Not,search_string='bake_idx_', source_dirs=dest_dir)
-        move_files_from_directories(dest_dir = dir_cut_image,search_string='cut_indx_', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_box_image,search_string='box_image', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_bake_image_Not,search_string='bake_image_Not', source_dirs=dest_dir)
+        move_files_from_directories(dest_dir = dir_cut_image,search_string='cut_image', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class,search_string='core_class', source_dirs=dest_dir)
         print('-' * 50)
         #tree_directory_images(dir_dataset_folder)
-
-
-
