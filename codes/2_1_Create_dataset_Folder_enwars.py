@@ -1,6 +1,6 @@
 import os
 import shutil
-import tqdm
+from vision.train_val_functiones.im_show import tree_directory_images
 
 def find_files_and_create_substring(directory, search_string):
   """
@@ -65,6 +65,7 @@ if val_train == 'V':
         move_files_from_directories(dest_dir = dir_cut_image_val,search_string='cut_indx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class_val,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class_val,search_string='core_class', source_dirs=dest_dir)
+        tree_directory_images(dest_dir)
 elif val_train == 'T':
     from vision.Config import dir_non_core_class,dir_core_class,dir_box_image,dir_bake_image_Not,dir_cut_image
     for dir in list_class_folder:
@@ -74,3 +75,4 @@ elif val_train == 'T':
         move_files_from_directories(dest_dir = dir_cut_image,search_string='cut_indx_', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_non_core_class,search_string='non_core_class', source_dirs=dest_dir)
         move_files_from_directories(dest_dir = dir_core_class,search_string='core_class', source_dirs=dest_dir)
+        tree_directory_images(dest_dir)
