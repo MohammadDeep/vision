@@ -97,7 +97,7 @@ print(dataset_train.class_to_idx)
 
 print('-' * 50)
 #lr =float( input('enter lr (.001):'))
-lr = .0001
+lr = .00001
   # 3. تعریف تابع از دست دادن (Loss) و بهینه‌ساز
 # استفاده از BCEWithLogitsLoss که برای خروجی باینری سیگموید استفاده می‌شود
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
