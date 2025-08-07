@@ -1,7 +1,7 @@
 from vision.Config import dir_image_gent_val,dir_image_gent,dir_dataset_orgnal, dir_dataset_orgnal_val,Create_train_data,Create_val_data,dir_dataset_folder_val,image_dir, image_val_dir,ann_file, ann_file_val, list_calsses, dir_dataset_folder
 from vision.perproses_image.Cut_Image import CutImage
 from vision.Create_dase_Fimage.create_folber_dataset import getDataFoalberCoco
-from vision.modeles import model_7
+from vision.modeles import Model_7
 
 
 from pathlib import Path
@@ -23,7 +23,7 @@ num_workers = 18
 print('-' * 50 )
 print('Load model 7 ...')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = model_7()
+model = Model_7()
 model.to(device)
 print('-' * 50)
 print('summary model :')
