@@ -55,7 +55,7 @@ class InceptionModule_save_D(nn.Module):
                  ,out_2_7
                  ,p_dropout = 0.5
                  ):
-        super(InceptionModule, self).__init__()
+        super(InceptionModule_save_D, self).__init__()
         out = (out_2_3+ out_2_5 +out_2_7)
         # شاخه اول: کانولوشن 1x1
         self.branch1 = nn.Sequential(
