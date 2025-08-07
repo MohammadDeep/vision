@@ -454,7 +454,7 @@ dic_model_6 = {
 
 
 dic_model_7 = {
-    'model_name': 'Model_6',
+    'model_name': 'Model_7',
     'model_stucher': Model_7,
     'input_shape' : (1024, 1024),
     'mean' : [0.485, 0.456, 0.406],
