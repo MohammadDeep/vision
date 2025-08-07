@@ -471,6 +471,128 @@ class Model_7(nn.Module):
 
 
 
+
+class Model_8(nn.Module):
+    def __init__(self,classes_number = 1,  in_channels = 3):
+        super(Model_8, self).__init__()
+
+        self.layer_1 = InceptionModule(
+            in_channels = in_channels
+            ,out_1_3 = 3
+            ,out_2_3 = 16
+            ,out_1_5 = 3
+            ,out_2_5 = 16
+            ,out_1_7 = 3
+            ,out_2_7 = 16
+            ,p_dropout = 0
+        )
+        self.layer_2 = InceptionModule(
+            in_channels = 16 * 3
+            ,out_1_3 = 16
+            ,out_2_3 = 32
+            ,out_1_5 = 16
+            ,out_2_5 = 32
+            ,out_1_7 = 8
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+        self.layer_3 = InceptionModule(
+            in_channels = 32 * 2 + 16
+            ,out_1_3 = 20
+            ,out_2_3 = 40
+            ,out_1_5 = 16
+            ,out_2_5 = 32
+            ,out_1_7 = 8
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+
+        self.layer_4 = InceptionModule(
+            in_channels = 40 + 32 + 16
+            ,out_1_3 = 32
+            ,out_2_3 = 64
+            ,out_1_5 = 16
+            ,out_2_5 = 32
+            ,out_1_7 = 16
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+
+        self.layer_5 = InceptionModule(
+            in_channels = 64 + 32 + 16
+            ,out_1_3 = 32
+            ,out_2_3 = 64
+            ,out_1_5 = 20
+            ,out_2_5 = 40
+            ,out_1_7 = 8
+            ,out_2_7 = 16,
+            p_dropout = 0
+        )
+        self.layer_6 = InceptionModule_save_D(
+            in_channels =64 + 40 + 16
+            ,out_1_3 = 32
+            ,out_2_3 = 128
+            ,out_1_5 = 32
+            ,out_2_5 = 128
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_7 = InceptionModule(
+            in_channels =128 * 2+ 32
+            ,out_1_3 = 32
+            ,out_2_3 = 128
+            ,out_1_5 = 32
+            ,out_2_5 = 128
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_8 = InceptionModule_save_D(
+            in_channels =128 * 2 + 32
+            ,out_1_3 = 64
+            ,out_2_3 = 256
+            ,out_1_5 = 64
+            ,out_2_5 = 256
+            ,out_1_7 = 16
+            ,out_2_7 = 32,
+            p_dropout = 0
+        )
+        self.layer_9 = InceptionModule(
+            in_channels =256 * 2 + 32
+            ,out_1_3 = 64
+            ,out_2_3 = 256
+            ,out_1_5 = 64
+            ,out_2_5 = 256
+            ,out_1_7 = 16
+            ,out_2_7 = 64,
+            p_dropout = 0
+        )
+
+        self.layer_10 = nn.Sequential(
+            nn.AvgPool2d(2),
+            nn.Flatten(),
+            nn.Linear(256* 2 + 64, classes_number)
+        )
+
+
+    def forward(self, x):
+        # محاسبه خروجی هر شاخه
+        x = self.layer_1(x)
+        x = self.layer_2(x)
+        x = self.layer_3(x)
+        x = self.layer_4(x)
+        x = self.layer_5(x)
+        x = self.layer_6(x)
+        x = self.layer_7(x)
+        x = self.layer_8(x)
+        x = self.layer_9(x)
+        x = self.layer_10(x)
+
+        # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
+        return x
+
+
 dic_model_2 = {
     'model_name' : 'model_2',
     'model_stucher' : HumanPresenceSqueezeNet,
@@ -516,6 +638,15 @@ dic_model_6 = {
 dic_model_7 = {
     'model_name': 'Model_7',
     'model_stucher': Model_7,
+    'input_shape' : (256, 256),
+    'mean' : [0.485, 0.456, 0.406],
+    'std' :[0.229, 0.224, 0.225],
+    'use_sigmoid' : True 
+}
+
+dic_model_8 = {
+    'model_name': 'Model_8',
+    'model_stucher': Model_8,
     'input_shape' : (256, 256),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
