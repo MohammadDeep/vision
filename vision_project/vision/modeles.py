@@ -45,6 +45,68 @@ class HumanPresenceSqueezeNet(nn.Module):
 
 
 
+class InceptionModule_save_D(nn.Module):
+    def __init__(self, in_channels
+                 , out_1_3,
+                 out_1_5 ,
+                 out_1_7
+                 , out_2_3 
+                 , out_2_5 
+                 ,out_2_7
+                 ,p_dropout = 0.5
+                 ):
+        super(InceptionModule, self).__init__()
+        out = (out_2_3+ out_2_5 +out_2_7)
+        # شاخه اول: کانولوشن 1x1
+        self.branch1 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_3, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_3),
+            nn.ReLU6(inplace= True),
+           # nn.MaxPool2d(2),
+            nn.Conv2d(out_1_3 ,out_2_3, kernel_size = 3, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_3),
+
+        )
+
+        # شاخه دوم: کانولوشن 1x1 و سپس 3x3
+        self.branch2 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_5, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_5),
+            nn.ReLU6(inplace= True),
+            #nn.MaxPool2d(2),
+            nn.Conv2d(out_1_5 ,out_2_5, kernel_size = 5, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_5),
+
+        )
+
+        # شاخه سوم: کانولوشن 1x1 و سپس 5x5
+        self.branch3 = nn.Sequential(
+            nn.Conv2d(in_channels, out_1_7, kernel_size=1,padding='same', bias= False),
+            nn.BatchNorm2d(num_features = out_1_7),
+            nn.ReLU6(inplace= True),
+            #nn.MaxPool2d(2),
+            nn.Conv2d(out_1_7 ,out_2_7, kernel_size = 7, padding='same',bias = False),
+            nn.BatchNorm2d(num_features = out_2_7),
+
+        )
+
+        self.branch4 = nn.Sequential(
+            nn.Conv2d(in_channels, out, kernel_size=1,stride=1, bias= False)
+        )
+
+        self.relu = nn.ReLU6(inplace= True)
+        self.dropout = nn.Dropout2d(p = p_dropout)
+    def forward(self, x):
+        # محاسبه خروجی هر شاخه
+        out1 = self.branch1(x)
+        out2 = self.branch2(x)
+        out3 = self.branch3(x)
+        out4 = self.branch4(x)
+        out = torch.cat([out4], 1) + torch.cat([out1, out2, out3], 1)
+        out = self.relu(out)
+        out = self.dropout(out)
+        # اتصال خروجی‌ها در امتداد بعد کانال (dim=1)
+        return out
 
 
 class InceptionModule(nn.Module):
@@ -342,7 +404,7 @@ class Model_7(nn.Module):
             ,out_2_7 = 16,
             p_dropout = 0
         )
-        self.layer_6 = InceptionModule(
+        self.layer_6 = InceptionModule_save_D(
             in_channels =64 + 40 + 16
             ,out_1_3 = 32
             ,out_2_3 = 80
@@ -362,7 +424,7 @@ class Model_7(nn.Module):
             ,out_2_7 = 32,
             p_dropout = 0
         )
-        self.layer_8 = InceptionModule(
+        self.layer_8 = InceptionModule_save_D(
             in_channels =100 * 2 + 32
             ,out_1_3 = 32
             ,out_2_3 = 128
@@ -456,7 +518,7 @@ dic_model_6 = {
 dic_model_7 = {
     'model_name': 'Model_7',
     'model_stucher': Model_7,
-    'input_shape' : (1024, 1024),
+    'input_shape' : (256, 256),
     'mean' : [0.485, 0.456, 0.406],
     'std' :[0.229, 0.224, 0.225],
     'use_sigmoid' : True 
