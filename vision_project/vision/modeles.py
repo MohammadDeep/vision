@@ -515,7 +515,7 @@ class Model_8(nn.Module):
             ,out_2_5 = 32
             ,out_1_7 = 16
             ,out_2_7 = 16,
-            p_dropout = 0.2
+            p_dropout = 0
         )
 
         self.layer_5 = InceptionModule(
@@ -526,7 +526,7 @@ class Model_8(nn.Module):
             ,out_2_5 = 40
             ,out_1_7 = 8
             ,out_2_7 = 16,
-            p_dropout = 0.2
+            p_dropout = 0
         )
         self.layer_6 = InceptionModule_save_D(
             in_channels =64 + 40 + 16
