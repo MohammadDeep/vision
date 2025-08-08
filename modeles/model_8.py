@@ -50,8 +50,8 @@ model_stucher = dic_model_8['model_stucher']
 input_shape =dic_model_8['input_shape']
 mean = dic_model_8['mean']
 std = dic_model_8['std']
-BATCH_SIZE = 420
-num_workers = 16
+BATCH_SIZE = 300
+num_workers = 20
 '''
 ==========================================================================
                                     path 2
