@@ -1,7 +1,7 @@
 from vision.Config import dir_image_gent_val,dir_image_gent,dir_dataset_orgnal, dir_dataset_orgnal_val,Create_train_data,Create_val_data,dir_dataset_folder_val,image_dir, image_val_dir,ann_file, ann_file_val, list_calsses, dir_dataset_folder
 from vision.perproses_image.Cut_Image import CutImage
 from vision.Create_dase_Fimage.create_folber_dataset import getDataFoalberCoco
-from vision.modeles import Model_6
+from vision.modeles import Model_7
 
 
 from pathlib import Path
@@ -21,9 +21,9 @@ from torchsummary import summary
 num_workers = 18 
 
 print('-' * 50 )
-print('Load model 6 ...')
+print('Load model 7 ...')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = Model_6()
+model = Model_7()
 model.to(device)
 print('-' * 50)
 print('summary model :')
@@ -42,14 +42,14 @@ import torch
 from torchvision import models
 from vision.Config import dic_dataset,dir_dataset_orgnal_val, dir_dataset_orgnal
 from vision.Create_Dataset import Create_dataet_dir
-from vision.modeles import dic_model_6
+from vision.modeles import dic_model_7
 
 
-model_name= dic_model_6['model_name']
-model_stucher = dic_model_6['model_stucher']
-input_shape =dic_model_6['input_shape']
-mean = dic_model_6['mean']
-std = dic_model_6['std']
+model_name= dic_model_7['model_name']
+model_stucher = dic_model_7['model_stucher']
+input_shape =dic_model_7['input_shape']
+mean = dic_model_7['mean']
+std = dic_model_7['std']
 BATCH_SIZE = 2 ** 8
 '''
 ==========================================================================
@@ -109,7 +109,7 @@ from vision.train_val_functiones.train_val_functiones import train
 from vision.Config import dir_history_model
 
 
-n_epoch = 100
+n_epoch = 200
 print(f'start training model epoches {n_epoch}')
 
 
