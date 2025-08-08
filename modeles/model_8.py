@@ -21,7 +21,7 @@ from torchsummary import summary
 num_workers = 18 
 
 print('-' * 50 )
-print('Load model 7 ...')
+print('Load model 8 ...')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = Model_8()
 model.to(device)
