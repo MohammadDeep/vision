@@ -49,8 +49,8 @@ def train_step(model: torch.nn.Module,
 
         X, y = X.to(device).float(), y.to(device).float()
 
-        #y = y.float()
-        y = y.unsqueeze(1)
+        y = y.float()
+        #y = y.unsqueeze(1)
         model.to(device)
         # 1. Forward pass
         y_pred = model(X)
@@ -138,12 +138,14 @@ def test_step(model: torch.nn.Module,
             #y = y.float()
             X, y = X.to(device).float(), y.to(device).float()
 
-             #y = y.float()
-            y = y.unsqueeze(1)
+            y = y.float()
+            #y = y.unsqueeze(1)
             model.to(device)
             # 1. Forward pass
             test_pred_logits = model(X)
+            
             # 2. Calculate and accumulate loss
+            
             loss = loss_fn(test_pred_logits, y)
             test_loss += loss.item()
 
