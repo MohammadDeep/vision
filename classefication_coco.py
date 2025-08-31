@@ -24,7 +24,7 @@ lr = .0001
 BATCH_SIZE = 2 ** 7
 NUM_WORKERS = 14
 SIZE_INPUT = 256 # input size for image for exampel (256, 256)
-NUMNER_CLASSES = 84
+NUMNER_CLASSES = 89
 
 # dir dataset
 annotation_file_train='annotations/instances_train2017.json'
