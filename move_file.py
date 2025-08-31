@@ -17,7 +17,7 @@ def move_all_files(src_dir, dest_dir):
             # اگر فایل باشد (نه دایرکتوری)
             if os.path.isfile(file_path):
                 shutil.move(file_path, os.path.join(dest_dir, file_name1))
-                print(f"File {filename} moved to {dest_dir}")
+                print(f"File {filename} moved to {dest_dir}/{file_name1}")
             else:
                 print(f"{file_path} is a directory, skipping.")
     else:
