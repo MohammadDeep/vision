@@ -22,7 +22,7 @@ from torchsummary import summary
 n_epoch = 200
 lr = .0001
 BATCH_SIZE = 2 ** 7
-NUM_WORKERS = 14
+NUM_WORKERS = 10
 SIZE_INPUT = 256 # input size for image for exampel (256, 256)
 
 
