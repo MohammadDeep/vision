@@ -21,8 +21,8 @@ from torchsummary import summary
 '''
 n_epoch = 200
 lr = .0001
-BATCH_SIZE = 2 ** 6
-NUM_WORKERS = 10
+BATCH_SIZE = 2 ** 7
+NUM_WORKERS = 14
 SIZE_INPUT = 256 # input size for image for exampel (256, 256)
 
 
@@ -122,7 +122,7 @@ from vision.modeles import Model_8
 
 
 
-model = Model_8(classes_number = 80)
+model = Model_8(classes_number = 84)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 pos_weight = torch.tensor([1]).to(device)
 loss_fn= nn.BCEWithLogitsLoss(pos_weight=pos_weight)  # این تابع از سیگموید به‌طور داخلی استفاده می‌کند
