@@ -101,6 +101,7 @@ val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_w
 # ----------------------------------------------------------------------
 from vision.modeles import Model_8  # Make sure to import your model properly
 
+# Initialize the model with the number of classes
 model = Model_8(classes_number=NUM_CLASSES)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
