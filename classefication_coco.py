@@ -24,7 +24,7 @@ lr = .0001
 BATCH_SIZE = 2 ** 7
 NUM_WORKERS = 14
 SIZE_INPUT = 256 # input size for image for exampel (256, 256)
-
+NUMNER_CLASSES = 84
 
 # dir dataset
 annotation_file_train='annotations/instances_train2017.json'
@@ -38,7 +38,7 @@ img_dir_val='val2017'
 ==========================================================================
 '''
 class CocoMultiLabelDataset(Dataset):
-    def __init__(self, annotation_file, img_dir, transform=None, num_classes=80):
+    def __init__(self, annotation_file, img_dir, transform=None, num_classes=NUMNER_CLASSES):
         """
         :param annotation_file: مسیر فایل JSON حاوی برچسب‌ها
         :param img_dir: مسیر فولدر تصاویر
@@ -122,7 +122,7 @@ from vision.modeles import Model_8
 
 
 
-model = Model_8(classes_number = 84)
+model = Model_8(classes_number = NUMNER_CLASSES)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 pos_weight = torch.tensor([1]).to(device)
 loss_fn= nn.BCEWithLogitsLoss(pos_weight=pos_weight)  # این تابع از سیگموید به‌طور داخلی استفاده می‌کند
