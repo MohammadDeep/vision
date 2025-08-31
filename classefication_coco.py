@@ -69,7 +69,8 @@ class CocoMultiLabelDataset(Dataset):
         target = torch.zeros(self.num_classes)
         for label in labels:
             print(label)
-            target[int(label - 1)] = 1  # کلاس‌ها از 1 شروع می‌شوند، بنابراین باید 1 کم کنیم
+            if label <= self.num_classes:
+                target[int(label - 1)] = 1  # کلاس‌ها از 1 شروع می‌شوند، بنابراین باید 1 کم کنیم
 
         if self.transform:
             img = self.transform(img)
