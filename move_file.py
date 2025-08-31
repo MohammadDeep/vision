@@ -12,7 +12,7 @@ def move_all_files(src_dir, dest_dir):
         for filename in os.listdir(src_dir):
             file_path = os.path.join(src_dir, filename)
             text = filename
-            parts = text.split('-')
+            parts = text.split('_')
             file_name1 = parts[-1]
             # اگر فایل باشد (نه دایرکتوری)
             if os.path.isfile(file_path):
