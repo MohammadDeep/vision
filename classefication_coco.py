@@ -68,6 +68,7 @@ class CocoMultiLabelDataset(Dataset):
         # تبدیل لیبل‌ها به بردار باینری
         target = torch.zeros(self.num_classes)
         for label in labels:
+            print(label)
             target[int(label - 1)] = 1  # کلاس‌ها از 1 شروع می‌شوند، بنابراین باید 1 کم کنیم
 
         if self.transform:
