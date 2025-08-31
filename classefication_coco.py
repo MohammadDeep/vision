@@ -24,7 +24,7 @@ lr = .0001
 BATCH_SIZE = 2 ** 7
 NUM_WORKERS = 14
 SIZE_INPUT = 256 # input size for image for exampel (256, 256)
-NUMNER_CLASSES = 89
+NUMNER_CLASSES = 80
 
 # dir dataset
 annotation_file_train='annotations/instances_train2017.json'
@@ -68,7 +68,7 @@ class CocoMultiLabelDataset(Dataset):
         # تبدیل لیبل‌ها به بردار باینری
         target = torch.zeros(self.num_classes)
         for label in labels:
-            target[label - 1] = 1  # کلاس‌ها از 1 شروع می‌شوند، بنابراین باید 1 کم کنیم
+            target[int(label - 1)] = 1  # کلاس‌ها از 1 شروع می‌شوند، بنابراین باید 1 کم کنیم
 
         if self.transform:
             img = self.transform(img)
