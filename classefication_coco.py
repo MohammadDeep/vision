@@ -14,7 +14,7 @@ from torchsummary import summary
 #                       Parameters
 # ----------------------------------------------------------------------
 n_epoch = 200
-lr = 0.0001
+lr = 0.001
 BATCH_SIZE = 2 ** 7
 NUM_WORKERS = 14
 SIZE_INPUT = 256  # input size for image (256, 256)
